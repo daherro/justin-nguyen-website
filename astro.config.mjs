@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// IMPORTANT: update `site` to your real production domain before deploying.
-// It is used for canonical URLs, the sitemap, and the RSS feed.
+// `site` is the production URL — used for canonical URLs, the sitemap, and
+// the RSS feed. Update this if you later add a custom domain.
 export default defineConfig({
-  site: 'https://justinnguyen.dev',
+  site: 'https://justin-nguyen-six.vercel.app',
   integrations: [sitemap()],
   output: 'static',
 });
