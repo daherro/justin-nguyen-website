@@ -1,0 +1,250 @@
+---
+// Live raking-light son mai painting for the About hero.
+// Ported from the Claude Design prototype (About.dc.html) to vanilla JS.
+---
+
+<canvas id="sonmai-canvas" aria-hidden="true"></canvas>
+
+<style>
+  #sonmai-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const cvs = document.getElementById('sonmai-canvas') as HTMLCanvasElement | null;
+  if (cvs) {
+    const ctx = cvs.getContext('2d')!;
+    const reduced =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let lx = window.innerWidth * 0.5;
+    let ly = window.innerHeight * 0.45;
+    let tx = lx;
+    let ty = ly;
+    let lastMove = -99999;
+    let ready = false;
+
+    let img: HTMLImageElement;
+    let iw = 0,
+      ih = 0;
+    let baseDim: HTMLCanvasElement,
+      bright: HTMLCanvasElement,
+      lumAlpha: HTMLCanvasElement,
+      tmp: HTMLCanvasElement;
+    let tctx: CanvasRenderingContext2D;
+    let glints: { ix: number; iy: number; l: number; ph: number; sp: number }[] = [];
+    let W = 0,
+      H = 0,
+      dpr = 1;
+    let cover: { dx: number; dy: number; dw: number; dh: number; s: number };
+    let start = performance.now();
+
+    const onMove = (e: PointerEvent) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      lastMove = performance.now();
+    };
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches && e.touches[0]) {
+        tx = e.touches[0].clientX;
+        ty = e.touches[0].clientY;
+        lastMove = performance.now();
+      }
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('touchmove', onTouch, { passive: true });
+    let rt: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(layout, 160);
+    });
+
+    function prepare() {
+      iw = img.naturalWidth;
+      ih = img.naturalHeight;
+      const mk = (filter: string) => {
+        const c = document.createElement('canvas');
+        c.width = iw;
+        c.height = ih;
+        const x = c.getContext('2d')!;
+        x.filter = filter;
+        x.drawImage(img, 0, 0);
+        return c;
+      };
+      baseDim = mk('brightness(0.34) saturate(0.82) contrast(1.05)');
+      bright = mk('brightness(1.95) saturate(1.55) contrast(1.14)');
+
+      const plain = document.createElement('canvas');
+      plain.width = iw;
+      plain.height = ih;
+      const px = plain.getContext('2d')!;
+      px.drawImage(img, 0, 0);
+      const d = px.getImageData(0, 0, iw, ih).data;
+      const lum = document.createElement('canvas');
+      lum.width = iw;
+      lum.height = ih;
+      const lctx = lum.getContext('2d')!;
+      const lout = lctx.createImageData(iw, ih);
+      const lo = lout.data;
+      glints = [];
+      const step = Math.max(6, Math.round(iw / 240));
+      for (let y = 0; y < ih; y++) {
+        for (let x = 0; x < iw; x++) {
+          const i = (y * iw + x) * 4;
+          const r = d[i],
+            g = d[i + 1],
+            b = d[i + 2];
+          let L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+          const warm = Math.max(0, (r + g) / 2 - b) / 255;
+          L = Math.min(1, L * (0.7 + 0.75 * warm));
+          let a = (L - 0.07) / 0.93;
+          a = a < 0 ? 0 : a;
+          a = Math.pow(a, 0.9);
+          lo[i] = 255;
+          lo[i + 1] = 255;
+          lo[i + 2] = 255;
+          lo[i + 3] = Math.round(a * 255);
+        }
+      }
+      lctx.putImageData(lout, 0, 0);
+      lumAlpha = lum;
+      for (let y = step; y < ih - step; y += step) {
+        for (let x = step; x < iw - step; x += step) {
+          const i = (y * iw + x) * 4;
+          const r = d[i],
+            g = d[i + 1],
+            b = d[i + 2];
+          const L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+          const warm = Math.max(0, (r + g) / 2 - b) / 255;
+          if (L > 0.4 && warm > 0.1)
+            glints.push({ ix: x, iy: y, l: L, ph: Math.random() * 6.28, sp: 0.5 + Math.random() * 1.6 });
+        }
+      }
+      tmp = document.createElement('canvas');
+      tctx = tmp.getContext('2d')!;
+    }
+
+    function layout() {
+      if (!img) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      cvs!.width = W * dpr;
+      cvs!.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      tmp.width = W * dpr;
+      tmp.height = H * dpr;
+      tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const s = Math.max(W / iw, H / ih) * 1.06;
+      const dw = iw * s,
+        dh = ih * s;
+      cover = { dx: (W - dw) / 2, dy: (H - dh) / 2, dw, dh, s };
+    }
+
+    function frame(now: number) {
+      if (!ready) {
+        requestAnimationFrame(frame);
+        return;
+      }
+      const t = (now - start) / 1000;
+      const cv = cover;
+      const dx = cv.dx,
+        dy = cv.dy;
+
+      if (!reduced && now - lastMove > 2400) {
+        tx = W * (0.5 + 0.3 * Math.cos(t * 0.22));
+        ty = H * (0.46 + 0.22 * Math.sin(t * 0.18));
+      }
+      const ease = now - lastMove < 2400 ? 0.26 : 0.07;
+      lx += (tx - lx) * ease;
+      ly += (ty - ly) * ease;
+      const R = Math.max(190, Math.min(W, H) * 0.24);
+      const breath = reduced ? 1 : 0.88 + 0.12 * Math.sin(t * 0.85);
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(baseDim, dx, dy, cv.dw, cv.dh);
+
+      tctx.globalCompositeOperation = 'source-over';
+      tctx.clearRect(0, 0, W, H);
+      tctx.drawImage(bright, dx, dy, cv.dw, cv.dh);
+      tctx.globalCompositeOperation = 'destination-in';
+      const grad = tctx.createRadialGradient(lx, ly, 0, lx, ly, R);
+      grad.addColorStop(0, 'rgba(255,255,255,' + 1.0 * breath + ')');
+      grad.addColorStop(0.4, 'rgba(255,255,255,' + 0.55 * breath + ')');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      tctx.fillStyle = grad;
+      tctx.fillRect(0, 0, W, H);
+      tctx.globalCompositeOperation = 'destination-in';
+      tctx.drawImage(lumAlpha, dx, dy, cv.dw, cv.dh);
+
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.drawImage(tmp, 0, 0, W, H);
+
+      // wet-sheen pass (proximity only)
+      tctx.globalCompositeOperation = 'source-over';
+      tctx.clearRect(0, 0, W, H);
+      tctx.drawImage(bright, dx, dy, cv.dw, cv.dh);
+      tctx.globalCompositeOperation = 'destination-in';
+      const sheen = tctx.createRadialGradient(lx, ly, 0, lx, ly, R * 0.82);
+      sheen.addColorStop(0, 'rgba(255,255,255,' + 0.62 * breath + ')');
+      sheen.addColorStop(1, 'rgba(255,255,255,0)');
+      tctx.fillStyle = sheen;
+      tctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = 0.26;
+      ctx.drawImage(tmp, 0, 0, W, H);
+      ctx.globalAlpha = 1;
+
+      const gr = R * 0.92;
+      for (const gp of glints) {
+        const vx = dx + gp.ix * cv.s,
+          vy = dy + gp.iy * cv.s;
+        const ddx = lx - vx,
+          ddy = ly - vy,
+          dist = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (dist > gr) continue;
+        const prox = 1 - dist / gr;
+        const tw = reduced ? 1 : 0.45 + 0.55 * Math.sin(t * gp.sp + gp.ph);
+        const a = prox * prox * tw * (0.7 + 0.5 * gp.l);
+        if (a < 0.05) continue;
+        const rad = 2 + prox * 9 * gp.l;
+        const g2 = ctx.createRadialGradient(vx, vy, 0, vx, vy, rad);
+        g2.addColorStop(0, 'rgba(255,238,176,' + Math.min(0.95, a * 1.3) + ')');
+        g2.addColorStop(0.5, 'rgba(230,186,104,' + a * 0.6 + ')');
+        g2.addColorStop(1, 'rgba(230,186,104,0)');
+        ctx.fillStyle = g2;
+        ctx.beginPath();
+        ctx.arc(vx, vy, rad, 0, 6.2832);
+        ctx.fill();
+      }
+
+      const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, R * 1.1);
+      halo.addColorStop(0, 'rgba(224,180,104,0.1)');
+      halo.addColorStop(1, 'rgba(224,180,104,0)');
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'source-over';
+
+      requestAnimationFrame(frame);
+    }
+
+    const loaded = new Image();
+    loaded.onload = () => {
+      img = loaded;
+      prepare();
+      layout();
+      ready = true;
+    };
+    loaded.src = '/assets/sonmai-landscape.png';
+    start = performance.now();
+    requestAnimationFrame(frame);
+  }
+</script>

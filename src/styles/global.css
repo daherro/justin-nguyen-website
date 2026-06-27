@@ -1,0 +1,97 @@
+/* ===================================================================
+   Design tokens — pulled directly from the Claude Design handoff.
+   Palette: warm near-black, warm off-white, gold (primary accent),
+   celadon green (secondary accent). Son mai lacquer direction.
+   =================================================================== */
+:root {
+  /* surfaces */
+  --bg: #0C0907;          /* inner pages */
+  --bg-home: #080605;     /* homepage (slightly deeper) */
+
+  /* ink */
+  --ink: #F1EAD6;
+  --ink-bright: #F4ECD8;
+  --ink-brightest: #F6EEDA;
+  --ink-soft: #D6CDB9;
+  --ink-softer: #D2C9B5;
+
+  /* muted text */
+  --muted: #A39A86;
+  --muted-deep: #8E8674;
+  --muted-nav: #B7AE9B;
+  --muted-link: #C2B9A5;
+
+  /* accents */
+  --gold: #E3B864;
+  --gold-soft: #DCC489;
+  --celadon: #9BC0A6;
+  --celadon-deep: #5F7A6A;
+  --celadon-dot: #8FB09B;
+
+  /* rules / borders (gold, low alpha) */
+  --rule: rgba(227, 184, 100, 0.24);
+  --rule-soft: rgba(227, 184, 100, 0.16);
+  --rule-strong: rgba(227, 184, 100, 0.26);
+
+  /* type */
+  --font-display: 'Cormorant', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+
+  /* layout */
+  --maxw: 1160px;
+  --maxw-read: 760px;
+  --pad-x: 48px;
+}
+
+html, body { margin: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { text-decoration: none; color: inherit; }
+
+* { box-sizing: border-box; }
+
+/* shared hairline rule used across pages */
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(227,184,100,0.5), rgba(227,184,100,0.06));
+}
+.rule-center {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(227,184,100,0.05), rgba(227,184,100,0.5), rgba(227,184,100,0.05));
+}
+
+/* uppercase tracked label (celadon) */
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--celadon);
+  font-weight: 500;
+}
+
+/* celadon chip / tag */
+.chip {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--celadon);
+  border: 1px solid rgba(155, 192, 166, 0.3);
+  border-radius: 2px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  :root { --pad-x: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+}

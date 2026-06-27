@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; }
+  body { font-family:'Spectral', Georgia, serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background:#0C0907; color:#F1EAD6; }
+  a { text-decoration:none; color:inherit; }
+</style>
+</helmet>
+
+<div style="position:relative; min-height:100vh;">
+
+  <div style="position:fixed; inset:0; z-index:0; background:#0C0907;"></div>
+  <div style="position:fixed; inset:0; z-index:0; background:url(assets/lacquer-texture.png) center/cover no-repeat; opacity:0.13;"></div>
+  <div style="position:fixed; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(10,7,6,0.82) 0%, rgba(10,7,6,0.55) 22%, rgba(10,7,6,0.55) 70%, rgba(10,7,6,0.9) 100%);"></div>
+
+  <div style="position:relative; z-index:2;">
+
+    <!-- ===== NAV ===== -->
+    <nav style="max-width:1160px; margin:0 auto; padding:34px 48px 0 48px; display:flex; justify-content:space-between; align-items:baseline;">
+      <a href="Homepage.dc.html" style="font-family:'Cormorant',serif; font-size:23px; font-weight:600; color:#EDE6D2;">Justin Nguyễn</a>
+      <div style="display:flex; gap:34px; font-size:15px; font-weight:500;">
+        <a href="Projects.dc.html" style="color:#B7AE9B; transition:color .2s ease;" style-hover="color:#E3B864;">Projects</a>
+        <a href="Blog.dc.html" style="color:#E3B864;">Blog</a>
+        <a href="About.dc.html" style="color:#B7AE9B; transition:color .2s ease;" style-hover="color:#E3B864;">About</a>
+      </div>
+    </nav>
+
+    <!-- ===== HEADER ===== -->
+    <header style="max-width:1160px; margin:0 auto; padding:110px 48px 0 48px; box-sizing:border-box;">
+      <div style="font-size:13px; letter-spacing:0.26em; text-transform:uppercase; color:#9BC0A6; margin-bottom:26px; font-weight:500;">Writing</div>
+      <h1 style="font-family:'Cormorant',serif; margin:0; padding-bottom:0.08em; font-size:clamp(56px, 8vw, 104px); line-height:1.04; font-weight:600; letter-spacing:0; color:#F4ECD8;">Blog</h1>
+      <p style="margin:26px 0 0 0; font-size:21px; line-height:1.5; font-weight:300; color:#D2C9B5; max-width:640px;">Notes on strategy, technology, and the ideas I keep returning to — written to think more clearly, and shared in case they are useful.</p>
+      <div style="height:1px; margin-top:56px; background:linear-gradient(90deg, rgba(227,184,100,0.5), rgba(227,184,100,0.06));"></div>
+    </header>
+
+    <!-- ===== FEATURED ===== -->
+    <section style="max-width:1160px; margin:0 auto; padding:0 48px; box-sizing:border-box;">
+      <a href="Blog Post.dc.html" style="display:block; padding:48px 24px 46px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#F4ECD8; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <div style="display:flex; gap:14px; align-items:center; margin-bottom:18px;">
+          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#9BC0A6;">Featured</span>
+          <span style="width:4px; height:4px; border-radius:50%; background:#5F7A6A;"></span>
+          <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums;">Month 00, 2026</span>
+        </div>
+        <span style="font-family:'Cormorant',serif; font-size:clamp(38px,5vw,60px); font-weight:600; line-height:1.06; display:block; max-width:840px;">The headline of your most recent or most important essay</span>
+        <span style="display:block; margin-top:20px; font-size:19px; line-height:1.6; color:#C2B9A5; max-width:680px; font-weight:300;">A two-line standfirst that sets up the argument of the piece and gives the reader a reason to click through and read the whole thing.</span>
+        <span style="display:inline-flex; align-items:center; gap:10px; margin-top:24px; font-size:15px; color:#9BC0A6;">Read the essay <span style="font-size:18px;">&rarr;</span></span>
+      </a>
+    </section>
+
+    <!-- ===== INDEX ===== -->
+    <section style="max-width:1160px; margin:0 auto; padding:0 48px 0 48px; box-sizing:border-box;">
+
+      <a href="Blog Post.dc.html" style="display:grid; grid-template-columns:150px 1fr auto; gap:34px; align-items:baseline; padding:32px 20px 32px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#EDE6D2; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums; padding-top:0.6em;">Month 00, 2026</span>
+        <span>
+          <span style="font-family:'Cormorant',serif; font-size:32px; font-weight:600; line-height:1.12; display:block;">Post title goes here</span>
+          <span style="display:block; margin-top:8px; font-size:16px; line-height:1.55; color:#A39A86; max-width:560px;">A one-line summary of what this post is about and why it might be worth a reader's time.</span>
+        </span>
+        <span style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; padding-top:0.4em;">
+          <span style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#9BC0A6; border:1px solid rgba(155,192,166,0.3); border-radius:2px; padding:4px 10px;">Topic</span>
+          <span style="font-size:12.5px; color:#8E8674;">0 min read</span>
+        </span>
+      </a>
+
+      <a href="Blog Post.dc.html" style="display:grid; grid-template-columns:150px 1fr auto; gap:34px; align-items:baseline; padding:32px 20px 32px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#EDE6D2; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums; padding-top:0.6em;">Month 00, 2026</span>
+        <span>
+          <span style="font-family:'Cormorant',serif; font-size:32px; font-weight:600; line-height:1.12; display:block;">Post title goes here</span>
+          <span style="display:block; margin-top:8px; font-size:16px; line-height:1.55; color:#A39A86; max-width:560px;">A one-line summary of what this post is about and why it might be worth a reader's time.</span>
+        </span>
+        <span style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; padding-top:0.4em;">
+          <span style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#9BC0A6; border:1px solid rgba(155,192,166,0.3); border-radius:2px; padding:4px 10px;">Topic</span>
+          <span style="font-size:12.5px; color:#8E8674;">0 min read</span>
+        </span>
+      </a>
+
+      <a href="Blog Post.dc.html" style="display:grid; grid-template-columns:150px 1fr auto; gap:34px; align-items:baseline; padding:32px 20px 32px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#EDE6D2; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums; padding-top:0.6em;">Month 00, 2026</span>
+        <span>
+          <span style="font-family:'Cormorant',serif; font-size:32px; font-weight:600; line-height:1.12; display:block;">Post title goes here</span>
+          <span style="display:block; margin-top:8px; font-size:16px; line-height:1.55; color:#A39A86; max-width:560px;">A one-line summary of what this post is about and why it might be worth a reader's time.</span>
+        </span>
+        <span style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; padding-top:0.4em;">
+          <span style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#9BC0A6; border:1px solid rgba(155,192,166,0.3); border-radius:2px; padding:4px 10px;">Topic</span>
+          <span style="font-size:12.5px; color:#8E8674;">0 min read</span>
+        </span>
+      </a>
+
+      <a href="Blog Post.dc.html" style="display:grid; grid-template-columns:150px 1fr auto; gap:34px; align-items:baseline; padding:32px 20px 32px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#EDE6D2; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums; padding-top:0.6em;">Month 00, 2026</span>
+        <span>
+          <span style="font-family:'Cormorant',serif; font-size:32px; font-weight:600; line-height:1.12; display:block;">Post title goes here</span>
+          <span style="display:block; margin-top:8px; font-size:16px; line-height:1.55; color:#A39A86; max-width:560px;">A one-line summary of what this post is about and why it might be worth a reader's time.</span>
+        </span>
+        <span style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; padding-top:0.4em;">
+          <span style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#9BC0A6; border:1px solid rgba(155,192,166,0.3); border-radius:2px; padding:4px 10px;">Topic</span>
+          <span style="font-size:12.5px; color:#8E8674;">0 min read</span>
+        </span>
+      </a>
+
+      <a href="Blog Post.dc.html" style="display:grid; grid-template-columns:150px 1fr auto; gap:34px; align-items:baseline; padding:32px 20px 32px 4px; border-bottom:1px solid rgba(227,184,100,0.16); color:#EDE6D2; transition:color .22s ease, padding-left .22s ease, background-color .22s ease;" style-hover="color:#E3B864; padding-left:20px; background-color:rgba(227,184,100,0.05);">
+        <span style="font-size:13.5px; color:#8E8674; font-variant-numeric:tabular-nums; padding-top:0.6em;">Month 00, 2026</span>
+        <span>
+          <span style="font-family:'Cormorant',serif; font-size:32px; font-weight:600; line-height:1.12; display:block;">Post title goes here</span>
+          <span style="display:block; margin-top:8px; font-size:16px; line-height:1.55; color:#A39A86; max-width:560px;">A one-line summary of what this post is about and why it might be worth a reader's time.</span>
+        </span>
+        <span style="display:flex; flex-direction:column; align-items:flex-end; gap:8px; padding-top:0.4em;">
+          <span style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#9BC0A6; border:1px solid rgba(155,192,166,0.3); border-radius:2px; padding:4px 10px;">Topic</span>
+          <span style="font-size:12.5px; color:#8E8674;">0 min read</span>
+        </span>
+      </a>
+
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="position:relative; margin-top:96px; border-top:1px solid rgba(227,184,100,0.26);">
+      <div style="max-width:1160px; margin:0 auto; padding:38px 48px 46px 48px; display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+          <div style="font-family:'Cormorant',serif; font-style:italic; font-size:40px; font-weight:500; color:#9BC0A6; line-height:1; text-shadow:0 0 24px rgba(95,122,106,0.45);">Nguyễn</div>
+          <div style="margin-top:11px; font-size:12.5px; color:#8E8674; letter-spacing:0.04em;">© 2026 Justin Nguyễn</div>
+        </div>
+        <div style="display:flex; gap:28px; font-size:13.5px;">
+          <a href="mailto:justintknguyen@gmail.com" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">Email</a>
+          <a href="https://www.linkedin.com/in/justintknguyen/" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">LinkedIn</a>
+          <a href="https://github.com/daherro" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

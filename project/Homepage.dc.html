@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; }
+  body { font-family:'Spectral', Georgia, serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background:#080605; color:#F1EAD6; }
+  a { text-decoration:none; color:inherit; }
+</style>
+</helmet>
+
+<div style="position:relative; min-height:100vh;">
+
+  <!-- live raking-light lacquer surface (real son mai texture) -->
+  <canvas ref="{{ canvasRef }}" style="position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none;"></canvas>
+
+  <!-- legibility scrim: darkens top + bottom, lets hero center breathe -->
+  <div style="position:fixed; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(8,6,5,0.78) 0%, rgba(8,6,5,0.32) 26%, rgba(8,6,5,0.30) 56%, rgba(8,6,5,0.86) 100%);"></div>
+
+  <div style="position:relative; z-index:2;">
+
+    <!-- ===== NAV ===== -->
+    <nav style="max-width:1160px; margin:0 auto; padding:34px 48px 0 48px; display:flex; justify-content:space-between; align-items:baseline;">
+      <span style="font-family:'Cormorant',serif; font-size:23px; font-weight:600; letter-spacing:0; color:#EDE6D2;">Justin Nguyễn</span>
+      <div style="display:flex; gap:34px; font-size:15px; font-weight:500;">
+        <a href="Projects.dc.html" style="color:#B7AE9B; transition:color .2s ease;" style-hover="color:#E3B864;">Projects</a>
+        <a href="Blog.dc.html" style="color:#B7AE9B; transition:color .2s ease;" style-hover="color:#E3B864;">Blog</a>
+        <a href="About.dc.html" style="color:#B7AE9B; transition:color .2s ease;" style-hover="color:#E3B864;">About</a>
+      </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section data-screen-label="Homepage hero" style="min-height:100vh; display:flex; flex-direction:column; justify-content:center; max-width:1160px; margin:0 auto; padding:120px 48px 100px 48px; box-sizing:border-box;">
+      <div style="font-size:13px; letter-spacing:0.26em; text-transform:uppercase; color:#9BC0A6; margin-bottom:26px; font-weight:500; text-shadow:0 1px 18px rgba(0,0,0,0.7);">Strategist &amp; Builder</div>
+      <h1 style="font-family:'Cormorant',serif; margin:0; padding:0.12em 0 0.16em 0; font-size:clamp(64px, 10vw, 144px); line-height:1.08; font-weight:600; letter-spacing:0; background:linear-gradient(168deg, #FCF7E8 0%, #EFE3C5 40%, #DCC489 100%); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 4px 50px rgba(0,0,0,0.6);">Justin<br>Nguyễn</h1>
+      <p style="margin:30px 0 0 0; font-size:clamp(20px,2.6vw,29px); line-height:1.4; font-weight:300; color:#E3DAC4; max-width:720px; text-shadow:0 2px 26px rgba(0,0,0,0.85);">I structure ambiguous problems, build the thing, and ship it.</p>
+
+      <div style="margin-top:44px; display:flex; align-items:center; gap:12px;">
+        <span style="width:9px; height:9px; flex:none; border-radius:50%; background:#8FB09B; box-shadow:0 0 0 4px rgba(143,176,155,0.18), 0 0 14px rgba(143,176,155,0.7);"></span>
+        <span style="font-size:14.5px; color:#BDB4A1; text-shadow:0 1px 14px rgba(0,0,0,0.8);">Currently exploring operator and product roles at growth-stage companies.</span>
+      </div>
+    </section>
+
+    <!-- ===== INTRO + ENTRIES ===== -->
+    <section style="max-width:1160px; margin:0 auto; padding:0 48px 120px 48px; box-sizing:border-box;">
+      <div style="height:1px; background:linear-gradient(90deg, rgba(227,184,100,0.05), rgba(227,184,100,0.5), rgba(227,184,100,0.05));"></div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; padding-top:64px; align-items:start;">
+        <p style="margin:0; font-size:19px; line-height:1.68; color:#D2C9B5; max-width:560px; text-shadow:0 1px 16px rgba(0,0,0,0.7);">I have spent the last six years moving between the whiteboard and the codebase. At Oliver Wyman I led strategy and product work for enterprise clients and built a 0-to-1 AI platform that shipped to five of them. Before that I ran a 10-person team at Microsoft and started a small business of my own. What ties it together is a simple instinct: take something ambiguous, give it structure, and make it real.</p>
+
+        <div>
+          <a href="Projects.dc.html" style="display:flex; align-items:baseline; gap:26px; padding:26px 0; border-top:1px solid rgba(227,184,100,0.24); color:#F1EAD6; transition:color .2s ease;" style-hover="color:#E3B864;">
+            <span style="font-size:14px; font-weight:500; color:#8E8674; font-variant-numeric:tabular-nums;">01</span>
+            <span style="flex:1;"><span style="font-family:'Cormorant',serif; font-size:40px; font-weight:600; letter-spacing:0;">Projects</span><br><span style="font-size:15px; color:#A39A86;">Things I have built, shipped, and run.</span></span>
+            <span style="color:#9BC0A6; font-size:21px; align-self:center;">&rarr;</span>
+          </a>
+          <a href="Blog.dc.html" style="display:flex; align-items:baseline; gap:26px; padding:26px 0; border-top:1px solid rgba(227,184,100,0.24); color:#F1EAD6; transition:color .2s ease;" style-hover="color:#E3B864;">
+            <span style="font-size:14px; font-weight:500; color:#8E8674; font-variant-numeric:tabular-nums;">02</span>
+            <span style="flex:1;"><span style="font-family:'Cormorant',serif; font-size:40px; font-weight:600; letter-spacing:0;">Blog</span><br><span style="font-size:15px; color:#A39A86;">Notes on strategy, technology, and ideas.</span></span>
+            <span style="color:#9BC0A6; font-size:21px; align-self:center;">&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="position:relative; border-top:1px solid rgba(227,184,100,0.26);">
+      <div style="max-width:1160px; margin:0 auto; padding:38px 48px 46px 48px; display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+          <div style="font-family:'Cormorant',serif; font-style:italic; font-size:40px; font-weight:500; color:#9BC0A6; letter-spacing:0; line-height:1; text-shadow:0 0 24px rgba(95,122,106,0.45);">Nguyễn</div>
+          <div style="margin-top:11px; font-size:12.5px; color:#8E8674; letter-spacing:0.04em;">© 2026 Justin Nguyễn</div>
+        </div>
+        <div style="display:flex; gap:28px; font-size:13.5px;">
+          <a href="mailto:justintknguyen@gmail.com" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">Email</a>
+          <a href="https://www.linkedin.com/in/justintknguyen/" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">LinkedIn</a>
+          <a href="https://github.com/daherro" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  canvasRef = React.createRef();
+  renderVals() { return { canvasRef: this.canvasRef }; }
+
+  componentDidMount() {
+    const cvs = this.canvasRef.current;
+    if (!cvs) return;
+    this.cvs = cvs;
+    this.ctx = cvs.getContext('2d');
+    this.reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.lx = window.innerWidth * 0.5; this.ly = window.innerHeight * 0.45;
+    this.tx = this.lx; this.ty = this.ly; this.lastMove = -99999;
+    this.ready = false;
+
+    this._move = (e) => { this.tx = e.clientX; this.ty = e.clientY; this.lastMove = performance.now(); };
+    this._touch = (e) => { if (e.touches && e.touches[0]) { this.tx = e.touches[0].clientX; this.ty = e.touches[0].clientY; this.lastMove = performance.now(); } };
+    window.addEventListener('pointermove', this._move, { passive: true });
+    window.addEventListener('touchmove', this._touch, { passive: true });
+    let rt; this._resize = () => { clearTimeout(rt); rt = setTimeout(() => this.layout(), 160); };
+    window.addEventListener('resize', this._resize);
+
+    const img = new Image();
+    img.onload = () => { this.img = img; this.prepare(); this.layout(); this.ready = true; };
+    img.src = 'assets/lacquer-texture.png';
+
+    this.start = performance.now();
+    this.raf = requestAnimationFrame(this.frame);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('pointermove', this._move);
+    window.removeEventListener('touchmove', this._touch);
+    window.removeEventListener('resize', this._resize);
+  }
+
+  // one-time: build dim base, bright (specular) version, luminance-alpha mask, glint points
+  prepare() {
+    const iw = this.img.naturalWidth, ih = this.img.naturalHeight;
+    this.iw = iw; this.ih = ih;
+
+    const mk = (filter) => {
+      const c = document.createElement('canvas'); c.width = iw; c.height = ih;
+      const x = c.getContext('2d'); x.filter = filter; x.drawImage(this.img, 0, 0); return c;
+    };
+    // resting lacquer: dim, slightly desaturated, cool — like unlit polished surface
+    this.baseDim = mk('brightness(0.42) saturate(0.78) contrast(1.04)');
+    // lit: exposed, saturated, warm gold pops
+    this.bright = mk('brightness(1.62) saturate(1.42) contrast(1.08)');
+
+    // luminance -> alpha mask (favouring warm/gold highlights), + glint points
+    const plain = document.createElement('canvas'); plain.width = iw; plain.height = ih;
+    const px = plain.getContext('2d'); px.drawImage(this.img, 0, 0);
+    const data = px.getImageData(0, 0, iw, ih);
+    const d = data.data;
+    const lum = document.createElement('canvas'); lum.width = iw; lum.height = ih;
+    const lout = lum.getContext('2d').createImageData(iw, ih);
+    const lo = lout.data;
+    this.glints = [];
+    const step = Math.max(8, Math.round(iw / 150));
+    for (let y = 0; y < ih; y++) {
+      for (let x = 0; x < iw; x++) {
+        const i = (y * iw + x) * 4;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        // warm-weighted luminance: gold (high r,g / low b) reads brightest
+        let L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+        const warm = Math.max(0, (r + g) / 2 - b) / 255; // goldness
+        L = Math.min(1, L * (0.72 + 0.7 * warm));
+        let a = (L - 0.16) / 0.84; a = a < 0 ? 0 : a; a = Math.pow(a, 1.25);
+        lo[i] = 255; lo[i + 1] = 255; lo[i + 2] = 255; lo[i + 3] = Math.round(a * 255);
+      }
+    }
+    lum.getContext('2d').putImageData(lout, 0, 0);
+    this.lumAlpha = lum;
+    // glints: sample grid for very bright warm pockets
+    for (let y = step; y < ih - step; y += step) {
+      for (let x = step; x < iw - step; x += step) {
+        const i = (y * iw + x) * 4;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        const L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+        const warm = Math.max(0, (r + g) / 2 - b) / 255;
+        if (L > 0.5 && warm > 0.12) this.glints.push({ ix: x, iy: y, l: L, ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.8 });
+      }
+    }
+
+    // scratch canvas for compositing (viewport sized, set in layout)
+    this.tmp = document.createElement('canvas');
+    this.tctx = this.tmp.getContext('2d');
+  }
+
+  layout() {
+    if (!this.img) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    this.dpr = dpr;
+    this.W = window.innerWidth; this.H = window.innerHeight;
+    this.cvs.width = this.W * dpr; this.cvs.height = this.H * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.tmp.width = this.W * dpr; this.tmp.height = this.H * dpr;
+    this.tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // cover rect
+    const s = Math.max(this.W / this.iw, this.H / this.ih);
+    const dw = this.iw * s, dh = this.ih * s;
+    this.cover = { dx: (this.W - dw) / 2, dy: (this.H - dh) / 2, dw, dh, s };
+  }
+
+  frame = (now) => {
+    const ctx = this.ctx;
+    if (!this.ready) { this.raf = requestAnimationFrame(this.frame); return; }
+    const W = this.W, H = this.H, t = (now - this.start) / 1000;
+    const cv = this.cover;
+
+    if (!this.reduced && now - this.lastMove > 2400) {
+      this.tx = W * (0.5 + 0.34 * Math.cos(t * 0.26)); this.ty = H * (0.46 + 0.26 * Math.sin(t * 0.205));
+    }
+    const ease = (now - this.lastMove < 2400) ? 0.28 : 0.08;
+    this.lx += (this.tx - this.lx) * ease; this.ly += (this.ty - this.ly) * ease;
+    const lx = this.lx, ly = this.ly;
+    const R = Math.max(260, Math.min(W, H) * 0.32);
+    const breath = this.reduced ? 1 : (0.92 + 0.08 * Math.sin(t * 0.9));
+
+    // 1) resting dim lacquer
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(this.baseDim, cv.dx, cv.dy, cv.dw, cv.dh);
+
+    // 2) build masked specular reveal in tmp:  bright  ∩  proximity  ∩  luminance
+    const tx = this.tctx;
+    tx.globalCompositeOperation = 'source-over';
+    tx.clearRect(0, 0, W, H);
+    tx.drawImage(this.bright, cv.dx, cv.dy, cv.dw, cv.dh);
+    // proximity (elliptical, slightly taller) as alpha
+    tx.globalCompositeOperation = 'destination-in';
+    const grad = tx.createRadialGradient(lx, ly, 0, lx, ly, R);
+    grad.addColorStop(0, 'rgba(255,255,255,' + (0.95 * breath) + ')');
+    grad.addColorStop(0.55, 'rgba(255,255,255,' + (0.5 * breath) + ')');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    tx.fillStyle = grad; tx.fillRect(0, 0, W, H);
+    // luminance mask
+    tx.globalCompositeOperation = 'destination-in';
+    tx.drawImage(this.lumAlpha, cv.dx, cv.dy, cv.dw, cv.dh);
+
+    // 3) add reveal over base (screen-like)
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.drawImage(this.tmp, 0, 0, W, H);
+
+    // 4) glints — gold flecks that catch the light and twinkle/burst near cursor
+    const gr = R * 0.92;
+    for (const gp of this.glints) {
+      const vx = cv.dx + gp.ix * cv.s, vy = cv.dy + gp.iy * cv.s;
+      const dx = lx - vx, dy = ly - vy, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > gr) continue;
+      const prox = 1 - dist / gr;
+      const tw = this.reduced ? 1 : (0.45 + 0.55 * Math.sin(t * gp.sp + gp.ph));
+      const a = prox * prox * tw * (0.5 + 0.5 * gp.l);
+      if (a < 0.06) continue;
+      const rad = 1.4 + prox * 5.5 * gp.l;
+      const g2 = ctx.createRadialGradient(vx, vy, 0, vx, vy, rad);
+      g2.addColorStop(0, 'rgba(255,228,150,' + Math.min(0.9, a) + ')');
+      g2.addColorStop(0.5, 'rgba(228,184,100,' + (a * 0.5) + ')');
+      g2.addColorStop(1, 'rgba(228,184,100,0)');
+      ctx.fillStyle = g2;
+      ctx.beginPath(); ctx.arc(vx, vy, rad, 0, 6.2832); ctx.fill();
+    }
+
+    // 5) faint warm bloom to seat the light in air
+    const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, R * 1.1);
+    halo.addColorStop(0, 'rgba(224,180,104,0.05)');
+    halo.addColorStop(1, 'rgba(224,180,104,0)');
+    ctx.fillStyle = halo; ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    this.raf = requestAnimationFrame(this.frame);
+  };
+}
+</script>
+</body>
+</html>

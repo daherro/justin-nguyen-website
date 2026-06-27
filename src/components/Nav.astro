@@ -1,0 +1,57 @@
+---
+interface Props {
+  active?: 'projects' | 'blog' | 'about' | null;
+  /** "flow" sits in normal flow (home, inner pages); "overlay" floats over a hero image (about). */
+  variant?: 'flow' | 'overlay';
+}
+const { active = null, variant = 'flow' } = Astro.props;
+const links = [
+  { href: '/projects', label: 'Projects', key: 'projects' },
+  { href: '/blog', label: 'Blog', key: 'blog' },
+  { href: '/about', label: 'About', key: 'about' },
+] as const;
+---
+
+<nav class:list={['nav', variant]}>
+  <a href="/" class="brand">Justin Nguyễn</a>
+  <div class="links">
+    {links.map((l) => (
+      <a href={l.href} class:list={['link', { active: active === l.key }]}>{l.label}</a>
+    ))}
+  </div>
+</nav>
+
+<style>
+  .nav {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 34px var(--pad-x) 0 var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .nav.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 23px;
+    font-weight: 600;
+    color: #EDE6D2;
+  }
+  .overlay .brand { color: var(--ink); text-shadow: 0 1px 16px rgba(0, 0, 0, 0.8); }
+  .links { display: flex; gap: 34px; font-size: 15px; font-weight: 500; }
+  .link { color: var(--muted-nav); transition: color 0.2s ease; }
+  .overlay .link { color: #D8CFBC; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8); }
+  .link:hover { color: var(--gold); }
+  .link.active { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .nav { flex-direction: column; gap: 16px; }
+    .links { gap: 24px; }
+  }
+</style>

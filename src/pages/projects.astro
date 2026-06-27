@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import StaticBackground from '../components/StaticBackground.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="Projects · Justin Nguyễn"
+  description="A working record of the things Justin Nguyễn has built, shipped, and run across strategy, product, and the occasional thing made entirely on his own."
+>
+  <div class="page">
+    <StaticBackground />
+
+    <div class="content">
+      <Nav active="projects" variant="flow" />
+
+      <header class="header">
+        <div class="eyebrow">Selected Work</div>
+        <h1>Projects</h1>
+        <p class="lede">
+          A working record of the things I have built, shipped, and run, across strategy, product,
+          and the occasional thing made entirely on my own.
+        </p>
+        <div class="rule"></div>
+      </header>
+
+      <section class="index">
+        {
+          projects.map((p, i) => (
+            <a href={p.href} class="row">
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span class="title">{p.title}</span>
+                <span class="desc">{p.description}</span>
+                <span class="tags">
+                  <span class="chip">{p.category}</span>
+                  <span class="chip">{p.year}</span>
+                </span>
+              </span>
+              <span class="arrow">&rarr;</span>
+            </a>
+          ))
+        }
+      </section>
+
+      <Footer marginTop="96px" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .content { position: relative; z-index: 2; }
+  .header { max-width: var(--maxw); margin: 0 auto; padding: 110px var(--pad-x) 0 var(--pad-x); }
+  .header h1 {
+    font-family: var(--font-display);
+    margin: 26px 0 0 0;
+    padding-bottom: 0.08em;
+    font-size: clamp(56px, 8vw, 104px);
+    line-height: 1.04;
+    font-weight: 600;
+    color: var(--ink-bright);
+  }
+  .eyebrow { margin-bottom: 0; }
+  .header h1 { margin-top: 26px; }
+  .lede {
+    margin: 26px 0 0 0;
+    font-size: 21px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--ink-softer);
+    max-width: 640px;
+  }
+  .header .rule { margin-top: 56px; }
+
+  .index { max-width: var(--maxw); margin: 0 auto; padding: 8px var(--pad-x) 0 var(--pad-x); }
+  .row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 34px;
+    align-items: baseline;
+    padding: 34px 20px 34px 4px;
+    border-bottom: 1px solid var(--rule-soft);
+    color: var(--ink);
+    transition: color 0.22s ease, padding-left 0.22s ease, background-color 0.22s ease;
+  }
+  .row:hover { color: var(--gold); padding-left: 20px; background-color: rgba(227, 184, 100, 0.05); }
+  .num {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.5;
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.7em;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 600;
+    display: block;
+    line-height: 1.1;
+  }
+  .desc {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 560px;
+  }
+  .tags { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .arrow { font-size: 22px; opacity: 0.6; align-self: center; }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: 1fr; gap: 10px; }
+    .num { padding-top: 0; }
+    .arrow { display: none; }
+  }
+</style>

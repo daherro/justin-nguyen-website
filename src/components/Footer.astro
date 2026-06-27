@@ -1,0 +1,63 @@
+---
+interface Props {
+  marginTop?: string;
+}
+const { marginTop = '0' } = Astro.props;
+---
+
+<footer style={`margin-top:${marginTop}`}>
+  <div class="inner">
+    <div>
+      <div class="sig">Nguyễn</div>
+      <div class="copy">© 2026 Justin Nguyễn</div>
+    </div>
+    <div class="social">
+      <a href="mailto:justintknguyen@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/justintknguyen/">LinkedIn</a>
+      <a href="https://github.com/daherro">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 38px var(--pad-x) 46px var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .sig {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--celadon);
+    line-height: 1;
+    text-shadow: 0 0 24px rgba(95, 122, 106, 0.45);
+  }
+  .copy {
+    margin-top: 11px;
+    font-size: 12.5px;
+    color: var(--muted-deep);
+    letter-spacing: 0.04em;
+  }
+  .social { display: flex; gap: 28px; font-size: 13.5px; }
+  .social a {
+    color: var(--muted-link);
+    border-bottom: 1px solid rgba(194, 185, 165, 0.3);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .social a:hover { color: var(--gold); border-color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+  }
+</style>

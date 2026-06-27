@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import LacquerCanvas from '../components/LacquerCanvas.astro';
+---
+
+<BaseLayout title="Justin Nguyễn · Strategist & Builder">
+  <div class="page">
+    <LacquerCanvas />
+
+    <div class="content">
+      <Nav active={null} />
+
+      <section class="hero">
+        <div class="eyebrow hero-eyebrow">Strategist &amp; Builder</div>
+        <h1 class="name">Justin<br />Nguyễn</h1>
+        <p class="tagline">I structure ambiguous problems, build the thing, and ship it.</p>
+
+        <div class="status">
+          <span class="dot"></span>
+          <span class="status-text">
+            Currently exploring operator and product roles at growth-stage companies.
+          </span>
+        </div>
+      </section>
+
+      <section class="intro">
+        <div class="rule-center"></div>
+        <div class="intro-grid">
+          <p class="intro-copy">
+            I have spent the last six years moving between the whiteboard and the codebase. At
+            Oliver Wyman I lead strategy and product work for enterprise clients and built The Hub, a
+            0-to-1 AI platform that shipped to five of them. Before that I ran a 10-person team at
+            Microsoft, and more recently started and sold a small business of my own. What ties it
+            together is a simple instinct: take something ambiguous, give it structure, and make it
+            real.
+          </p>
+
+          <div class="entries">
+            <a href="/projects" class="entry">
+              <span class="num">01</span>
+              <span class="entry-body">
+                <span class="entry-title">Projects</span><br />
+                <span class="entry-sub">Things I have built, shipped, and run.</span>
+              </span>
+              <span class="arrow">&rarr;</span>
+            </a>
+            <a href="/blog" class="entry">
+              <span class="num">02</span>
+              <span class="entry-body">
+                <span class="entry-title">Blog</span><br />
+                <span class="entry-sub">Notes on strategy, technology, and ideas.</span>
+              </span>
+              <span class="arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page { position: relative; min-height: 100vh; background: var(--bg-home); }
+  .content { position: relative; z-index: 2; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 120px var(--pad-x) 100px var(--pad-x);
+  }
+  .hero-eyebrow {
+    margin-bottom: 26px;
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.7);
+  }
+  .name {
+    font-family: var(--font-display);
+    margin: 0;
+    padding: 0.12em 0 0.16em 0;
+    font-size: clamp(64px, 10vw, 144px);
+    line-height: 1.08;
+    font-weight: 600;
+    background: linear-gradient(168deg, #fcf7e8 0%, #efe3c5 40%, #dcc489 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 4px 50px rgba(0, 0, 0, 0.6);
+  }
+  .tagline {
+    margin: 30px 0 0 0;
+    font-size: clamp(20px, 2.6vw, 29px);
+    line-height: 1.4;
+    font-weight: 300;
+    color: #e3dac4;
+    max-width: 720px;
+    text-shadow: 0 2px 26px rgba(0, 0, 0, 0.85);
+  }
+  .status { margin-top: 44px; display: flex; align-items: center; gap: 12px; }
+  .dot {
+    width: 9px;
+    height: 9px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--celadon-dot);
+    box-shadow: 0 0 0 4px rgba(143, 176, 155, 0.18), 0 0 14px rgba(143, 176, 155, 0.7);
+  }
+  .status-text { font-size: 14.5px; color: #bdb4a1; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8); }
+
+  .intro { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x) 120px var(--pad-x); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    padding-top: 64px;
+    align-items: start;
+  }
+  .intro-copy {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.68;
+    color: var(--ink-softer);
+    max-width: 560px;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.7);
+  }
+  .entry {
+    display: flex;
+    align-items: baseline;
+    gap: 26px;
+    padding: 26px 0;
+    border-top: 1px solid var(--rule);
+    color: var(--ink);
+    transition: color 0.2s ease;
+  }
+  .entry:hover { color: var(--gold); }
+  .num { font-size: 14px; font-weight: 500; color: var(--muted-deep); font-variant-numeric: tabular-nums; }
+  .entry-body { flex: 1; }
+  .entry-title { font-family: var(--font-display); font-size: 40px; font-weight: 600; }
+  .entry-sub { font-size: 15px; color: var(--muted); }
+  .arrow { color: var(--celadon); font-size: 21px; align-self: center; }
+
+  @media (max-width: 820px) {
+    .intro-grid { grid-template-columns: 1fr; gap: 48px; }
+    .intro-copy { max-width: none; }
+  }
+</style>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; }
+  body { font-family:'Spectral', Georgia, serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background:#0C0907; color:#F1EAD6; }
+  a { text-decoration:none; color:inherit; }
+  @keyframes aboutBob { 0%,100%{ transform:translateY(0); opacity:0.5; } 50%{ transform:translateY(7px); opacity:1; } }
+</style>
+</helmet>
+
+<div style="position:relative;">
+
+  <!-- live raking-light painting (whole-page fixed; opaque sections below cover it) -->
+  <canvas ref="{{ canvasRef }}" style="position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none;"></canvas>
+
+  <!-- ===== NAV (over hero) ===== -->
+  <nav style="position:absolute; top:0; left:0; right:0; z-index:5; max-width:1160px; margin:0 auto; padding:34px 48px 0 48px; display:flex; justify-content:space-between; align-items:baseline; box-sizing:border-box;">
+    <a href="Homepage.dc.html" style="font-family:'Cormorant',serif; font-size:23px; font-weight:600; color:#F1EAD6; text-shadow:0 1px 16px rgba(0,0,0,0.8);">Justin Nguyễn</a>
+    <div style="display:flex; gap:34px; font-size:15px; font-weight:500;">
+      <a href="Projects.dc.html" style="color:#D8CFBC; text-shadow:0 1px 14px rgba(0,0,0,0.8); transition:color .2s ease;" style-hover="color:#E3B864;">Projects</a>
+      <a href="Blog.dc.html" style="color:#D8CFBC; text-shadow:0 1px 14px rgba(0,0,0,0.8); transition:color .2s ease;" style-hover="color:#E3B864;">Blog</a>
+      <a href="About.dc.html" style="color:#E3B864; text-shadow:0 1px 14px rgba(0,0,0,0.8);">About</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO (painting shows through) ===== -->
+  <section data-screen-label="About hero" style="position:relative; z-index:2; height:100vh; min-height:620px; display:flex; flex-direction:column; justify-content:flex-end;">
+    <!-- scrims for legibility, painted over the fixed canvas -->
+    <div style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg, rgba(10,7,6,0.5) 0%, rgba(10,7,6,0) 22%, rgba(10,7,6,0) 52%, rgba(10,7,6,0.72) 100%);"></div>
+    <div style="position:relative; max-width:1160px; width:100%; margin:0 auto; padding:0 48px 92px 48px; box-sizing:border-box;">
+      <div style="font-size:13px; letter-spacing:0.26em; text-transform:uppercase; color:#9BC0A6; margin-bottom:24px; font-weight:500; text-shadow:0 1px 18px rgba(0,0,0,0.9);">About</div>
+      <h1 style="font-family:'Cormorant',serif; margin:0; padding-bottom:0.04em; font-size:clamp(40px,5.6vw,80px); line-height:1.08; font-weight:600; letter-spacing:0; color:#F6EEDA; max-width:880px; text-shadow:0 3px 40px rgba(0,0,0,0.8);">Where I come from, and what I am building toward.</h1>
+    </div>
+    <!-- scroll cue -->
+    <div style="position:absolute; left:50%; bottom:28px; transform:translateX(-50%); z-index:3; color:#D8CFBC; font-size:22px; animation:aboutBob 2.4s ease-in-out infinite;">&darr;</div>
+  </section>
+
+  <!-- ===== BIO (opaque, covers canvas) ===== -->
+  <div style="position:relative; z-index:2; background:#0C0907; border-top:1px solid rgba(227,184,100,0.22);">
+    <div style="max-width:760px; margin:0 auto; padding:96px 32px 0 32px; box-sizing:border-box;">
+
+      <p style="margin:0; font-family:'Cormorant',serif; font-size:clamp(26px,3.4vw,38px); line-height:1.32; font-weight:500; color:#F1EAD6;">I am a strategist and a builder. For the last six years I have moved between the whiteboard and the codebase, taking things that are ambiguous and making them real.</p>
+
+      <div style="font-size:19px; line-height:1.8; color:#D2C9B5; margin-top:40px;">
+        <p style="margin:0 0 26px 0;">My family is from Việt Nam, and that heritage is the quiet through-line of how I work — patience, layering, and a respect for craft that I trace back to sơn mài, the lacquer painting built up coat by coat until it glows. I grew up between that culture and an American one, and today I live and work in Washington, D.C.</p>
+        <p style="margin:0;">I care less about titles than about the shape of a problem. Give me something tangled and under-defined, and the work I most enjoy is giving it structure, building the first version, and shipping it to someone real.</p>
+      </div>
+
+      <blockquote style="margin:52px 0; padding:0 0 0 30px; border-left:2px solid #5F7A6A;">
+        <p style="font-family:'Cormorant',serif; font-style:italic; font-size:clamp(26px,3.4vw,34px); line-height:1.36; color:#9BC0A6; margin:0;">Take something ambiguous, give it structure, and make it real.</p>
+      </blockquote>
+    </div>
+
+    <!-- ===== THE PATH ===== -->
+    <div style="max-width:760px; margin:0 auto; padding:24px 32px 0 32px; box-sizing:border-box;">
+      <h2 style="font-family:'Cormorant',serif; font-size:30px; font-weight:600; color:#F4ECD8; margin:0 0 8px 0;">The path</h2>
+      <div style="height:1px; background:linear-gradient(90deg, rgba(227,184,100,0.45), rgba(227,184,100,0.05)); margin-bottom:10px;"></div>
+
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:28px; padding:30px 0; border-bottom:1px solid rgba(227,184,100,0.14);">
+        <div style="font-size:14px; color:#9BC0A6; font-variant-numeric:tabular-nums; padding-top:0.5em;">0000 — Now</div>
+        <div>
+          <div style="font-family:'Cormorant',serif; font-size:28px; font-weight:600; color:#F1EAD6; line-height:1.15;">Strategy &amp; Product</div>
+          <div style="font-size:15px; color:#9BC0A6; margin-top:4px;">Oliver Wyman</div>
+          <p style="margin:12px 0 0 0; font-size:16.5px; line-height:1.65; color:#A39A86;">Led strategy and product work for enterprise clients, and built a 0-to-1 AI platform that shipped to five of them.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:28px; padding:30px 0; border-bottom:1px solid rgba(227,184,100,0.14);">
+        <div style="font-size:14px; color:#9BC0A6; font-variant-numeric:tabular-nums; padding-top:0.5em;">0000 — 0000</div>
+        <div>
+          <div style="font-family:'Cormorant',serif; font-size:28px; font-weight:600; color:#F1EAD6; line-height:1.15;">Founder</div>
+          <div style="font-size:15px; color:#9BC0A6; margin-top:4px;">Your business</div>
+          <p style="margin:12px 0 0 0; font-size:16.5px; line-height:1.65; color:#A39A86;">Started and ran a small business of my own — a line describing what it was and what you learned building it.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:28px; padding:30px 0; border-bottom:1px solid rgba(227,184,100,0.14);">
+        <div style="font-size:14px; color:#9BC0A6; font-variant-numeric:tabular-nums; padding-top:0.5em;">0000 — 0000</div>
+        <div>
+          <div style="font-family:'Cormorant',serif; font-size:28px; font-weight:600; color:#F1EAD6; line-height:1.15;">Team Lead</div>
+          <div style="font-size:15px; color:#9BC0A6; margin-top:4px;">Microsoft</div>
+          <p style="margin:12px 0 0 0; font-size:16.5px; line-height:1.65; color:#A39A86;">Ran a 10-person team — a line on what you owned, who you led, and the outcome it drove.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BEYOND ===== -->
+    <div style="max-width:760px; margin:0 auto; padding:64px 32px 0 32px; box-sizing:border-box;">
+      <h2 style="font-family:'Cormorant',serif; font-size:30px; font-weight:600; color:#F4ECD8; margin:0 0 8px 0;">Beyond the work</h2>
+      <div style="height:1px; background:linear-gradient(90deg, rgba(227,184,100,0.45), rgba(227,184,100,0.05)); margin-bottom:28px;"></div>
+      <p style="margin:0; font-size:19px; line-height:1.8; color:#D2C9B5;">A short, personal paragraph — the things that make you you outside of a résumé. What you read, make, cook, or chase; the corner of Vietnamese culture you hold closest; what a good weekend looks like. Keep it warm and specific.</p>
+    </div>
+
+    <!-- ===== CTA ===== -->
+    <div style="max-width:760px; margin:0 auto; padding:64px 32px 96px 32px; box-sizing:border-box;">
+      <div style="border:1px solid rgba(227,184,100,0.24); border-radius:3px; padding:44px 40px; background:linear-gradient(180deg, rgba(227,184,100,0.05), rgba(227,184,100,0));">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:16px;">
+          <span style="width:9px; height:9px; border-radius:50%; background:#8FB09B; box-shadow:0 0 0 4px rgba(143,176,155,0.18), 0 0 14px rgba(143,176,155,0.7);"></span>
+          <span style="font-size:14px; color:#9BC0A6;">Currently exploring operator and product roles at growth-stage companies.</span>
+        </div>
+        <h2 style="font-family:'Cormorant',serif; font-size:clamp(30px,4vw,44px); font-weight:600; color:#F4ECD8; margin:0; line-height:1.12;">Let us talk.</h2>
+        <p style="margin:14px 0 28px 0; font-size:18px; line-height:1.6; color:#C2B9A5; max-width:520px;">If you are building something ambiguous and real, I would love to hear about it.</p>
+        <div style="display:flex; gap:26px; font-size:15px;">
+          <a href="mailto:justintknguyen@gmail.com" style="color:#E3B864; border-bottom:1px solid rgba(227,184,100,0.45); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#F4ECD8; border-color:#F4ECD8;">Email</a>
+          <a href="https://www.linkedin.com/in/justintknguyen/" style="color:#E3B864; border-bottom:1px solid rgba(227,184,100,0.45); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#F4ECD8; border-color:#F4ECD8;">LinkedIn</a>
+          <a href="https://github.com/daherro" style="color:#E3B864; border-bottom:1px solid rgba(227,184,100,0.45); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#F4ECD8; border-color:#F4ECD8;">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="border-top:1px solid rgba(227,184,100,0.26);">
+      <div style="max-width:1160px; margin:0 auto; padding:38px 48px 46px 48px; display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+          <div style="font-family:'Cormorant',serif; font-style:italic; font-size:40px; font-weight:500; color:#9BC0A6; line-height:1; text-shadow:0 0 24px rgba(95,122,106,0.45);">Nguyễn</div>
+          <div style="margin-top:11px; font-size:12.5px; color:#8E8674; letter-spacing:0.04em;">© 2026 Justin Nguyễn</div>
+        </div>
+        <div style="display:flex; gap:28px; font-size:13.5px;">
+          <a href="mailto:justintknguyen@gmail.com" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">Email</a>
+          <a href="https://www.linkedin.com/in/justintknguyen/" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">LinkedIn</a>
+          <a href="https://github.com/daherro" style="color:#C2B9A5; border-bottom:1px solid rgba(194,185,165,0.3); padding-bottom:2px; transition:color .2s ease, border-color .2s ease;" style-hover="color:#E3B864; border-color:#E3B864;">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  canvasRef = React.createRef();
+  renderVals() { return { canvasRef: this.canvasRef }; }
+
+  componentDidMount() {
+    const cvs = this.canvasRef.current;
+    if (!cvs) return;
+    this.cvs = cvs; this.ctx = cvs.getContext('2d');
+    this.reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.lx = window.innerWidth * 0.5; this.ly = window.innerHeight * 0.45;
+    this.tx = this.lx; this.ty = this.ly; this.lastMove = -99999; this.ready = false;
+
+    this._move = (e) => { this.tx = e.clientX; this.ty = e.clientY; this.lastMove = performance.now(); };
+    this._touch = (e) => { if (e.touches && e.touches[0]) { this.tx = e.touches[0].clientX; this.ty = e.touches[0].clientY; this.lastMove = performance.now(); } };
+    window.addEventListener('pointermove', this._move, { passive: true });
+    window.addEventListener('touchmove', this._touch, { passive: true });
+    let rt; this._resize = () => { clearTimeout(rt); rt = setTimeout(() => this.layout(), 160); };
+    window.addEventListener('resize', this._resize);
+
+    const img = new Image();
+    img.onload = () => { this.img = img; this.prepare(); this.layout(); this.ready = true; };
+    img.src = 'assets/sonmai-landscape.png';
+
+    this.start = performance.now();
+    this.raf = requestAnimationFrame(this.frame);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('pointermove', this._move);
+    window.removeEventListener('touchmove', this._touch);
+    window.removeEventListener('resize', this._resize);
+  }
+
+  prepare() {
+    const iw = this.img.naturalWidth, ih = this.img.naturalHeight;
+    this.iw = iw; this.ih = ih;
+    const mk = (filter) => {
+      const c = document.createElement('canvas'); c.width = iw; c.height = ih;
+      const x = c.getContext('2d'); x.filter = filter; x.drawImage(this.img, 0, 0); return c;
+    };
+    // painting stays fairly visible at rest, then ignites near cursor
+    this.baseDim = mk('brightness(0.34) saturate(0.82) contrast(1.05)');
+    this.bright = mk('brightness(1.95) saturate(1.55) contrast(1.14)');
+
+    const plain = document.createElement('canvas'); plain.width = iw; plain.height = ih;
+    const px = plain.getContext('2d'); px.drawImage(this.img, 0, 0);
+    const d = px.getImageData(0, 0, iw, ih).data;
+    const lum = document.createElement('canvas'); lum.width = iw; lum.height = ih;
+    const lctx = lum.getContext('2d'); const lout = lctx.createImageData(iw, ih); const lo = lout.data;
+    this.glints = [];
+    const step = Math.max(6, Math.round(iw / 240));
+    for (let y = 0; y < ih; y++) {
+      for (let x = 0; x < iw; x++) {
+        const i = (y * iw + x) * 4;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        let L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+        const warm = Math.max(0, (r + g) / 2 - b) / 255;
+        L = Math.min(1, L * (0.7 + 0.75 * warm));
+        let a = (L - 0.07) / 0.93; a = a < 0 ? 0 : a; a = Math.pow(a, 0.9);
+        lo[i] = 255; lo[i + 1] = 255; lo[i + 2] = 255; lo[i + 3] = Math.round(a * 255);
+      }
+    }
+    lctx.putImageData(lout, 0, 0); this.lumAlpha = lum;
+    for (let y = step; y < ih - step; y += step) {
+      for (let x = step; x < iw - step; x += step) {
+        const i = (y * iw + x) * 4;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        const L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
+        const warm = Math.max(0, (r + g) / 2 - b) / 255;
+        if (L > 0.4 && warm > 0.1) this.glints.push({ ix: x, iy: y, l: L, ph: Math.random() * 6.28, sp: 0.5 + Math.random() * 1.6 });
+      }
+    }
+    this.tmp = document.createElement('canvas'); this.tctx = this.tmp.getContext('2d');
+  }
+
+  layout() {
+    if (!this.img) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75); this.dpr = dpr;
+    this.W = window.innerWidth; this.H = window.innerHeight;
+    this.cvs.width = this.W * dpr; this.cvs.height = this.H * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.tmp.width = this.W * dpr; this.tmp.height = this.H * dpr;
+    this.tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const s = Math.max(this.W / this.iw, this.H / this.ih) * 1.06; // overscan for parallax
+    const dw = this.iw * s, dh = this.ih * s;
+    this.cover = { dx: (this.W - dw) / 2, dy: (this.H - dh) / 2, dw, dh, s };
+  }
+
+  frame = (now) => {
+    const ctx = this.ctx;
+    if (!this.ready) { this.raf = requestAnimationFrame(this.frame); return; }
+    const W = this.W, H = this.H, t = (now - this.start) / 1000, cv = this.cover;
+
+    if (!this.reduced && now - this.lastMove > 2400) {
+      this.tx = W * (0.5 + 0.3 * Math.cos(t * 0.22)); this.ty = H * (0.46 + 0.22 * Math.sin(t * 0.18));
+    }
+    const ease = (now - this.lastMove < 2400) ? 0.26 : 0.07;
+    this.lx += (this.tx - this.lx) * ease; this.ly += (this.ty - this.ly) * ease;
+    const lx = this.lx, ly = this.ly;
+    const R = Math.max(190, Math.min(W, H) * 0.24);
+    const breath = this.reduced ? 1 : (0.88 + 0.12 * Math.sin(t * 0.85));
+    const dx = cv.dx, dy = cv.dy;
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(this.baseDim, dx, dy, cv.dw, cv.dh);
+
+    const tc = this.tctx;
+    tc.globalCompositeOperation = 'source-over';
+    tc.clearRect(0, 0, W, H);
+    tc.drawImage(this.bright, dx, dy, cv.dw, cv.dh);
+    tc.globalCompositeOperation = 'destination-in';
+    const grad = tc.createRadialGradient(lx, ly, 0, lx, ly, R);
+    grad.addColorStop(0, 'rgba(255,255,255,' + (1.0 * breath) + ')');
+    grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.55 * breath) + ')');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    tc.fillStyle = grad; tc.fillRect(0, 0, W, H);
+    tc.globalCompositeOperation = 'destination-in';
+    tc.drawImage(this.lumAlpha, dx, dy, cv.dw, cv.dh);
+
+    // gold ignite pass (luminance-masked) — blazes the gold leaf & cracks
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.drawImage(this.tmp, 0, 0, W, H);
+
+    // wet-sheen pass (proximity only) — lifts the whole scene near the cursor
+    tc.globalCompositeOperation = 'source-over';
+    tc.clearRect(0, 0, W, H);
+    tc.drawImage(this.bright, dx, dy, cv.dw, cv.dh);
+    tc.globalCompositeOperation = 'destination-in';
+    const sheen = tc.createRadialGradient(lx, ly, 0, lx, ly, R * 0.82);
+    sheen.addColorStop(0, 'rgba(255,255,255,' + (0.62 * breath) + ')');
+    sheen.addColorStop(1, 'rgba(255,255,255,0)');
+    tc.fillStyle = sheen; tc.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.26;
+    ctx.drawImage(this.tmp, 0, 0, W, H); ctx.globalAlpha = 1;
+
+    const gr = R * 0.92;
+    for (const gp of this.glints) {
+      const vx = dx + gp.ix * cv.s, vy = dy + gp.iy * cv.s;
+      const ddx = lx - vx, ddy = ly - vy, dist = Math.sqrt(ddx * ddx + ddy * ddy);
+      if (dist > gr) continue;
+      const prox = 1 - dist / gr;
+      const tw = this.reduced ? 1 : (0.45 + 0.55 * Math.sin(t * gp.sp + gp.ph));
+      const a = prox * prox * tw * (0.7 + 0.5 * gp.l);
+      if (a < 0.05) continue;
+      const rad = 2 + prox * 9 * gp.l;
+      const g2 = ctx.createRadialGradient(vx, vy, 0, vx, vy, rad);
+      g2.addColorStop(0, 'rgba(255,238,176,' + Math.min(0.95, a * 1.3) + ')');
+      g2.addColorStop(0.5, 'rgba(230,186,104,' + (a * 0.6) + ')');
+      g2.addColorStop(1, 'rgba(230,186,104,0)');
+      ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(vx, vy, rad, 0, 6.2832); ctx.fill();
+    }
+
+    const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, R * 1.1);
+    halo.addColorStop(0, 'rgba(224,180,104,0.1)'); halo.addColorStop(1, 'rgba(224,180,104,0)');
+    ctx.fillStyle = halo; ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    this.raf = requestAnimationFrame(this.frame);
+  };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import SonmaiCanvas from '../components/SonmaiCanvas.astro';
+
+const timeline = [
+  {
+    range: '2021–Now',
+    role: 'Strategy & Product',
+    org: 'Oliver Wyman',
+    note: 'Advise enterprise clients on strategy, operations, and product delivery, and built The Hub, a 0-to-1 AI platform that shipped to five of them. Most recently led a ~$6M retail engagement as PM.',
+  },
+  {
+    range: '2025–2026',
+    role: 'Co-Founder',
+    org: 'Lot Armor',
+    note: 'Co-founded and ran a parking lot striping business, grew it through direct sales and local partnerships, and sold it. A reminder that shipping is shipping, whatever the medium.',
+  },
+  {
+    range: '2020–2021',
+    role: 'Program Manager',
+    org: 'Microsoft',
+    note: 'Led a 10-person team through a Fortune 50 IT divestiture, managing $6M in engagement funds and a ~20K-item backlog.',
+  },
+  {
+    range: '2018',
+    role: 'Software Engineering Intern',
+    org: 'NAL Technologies',
+    note: 'Built GPS, audio, and tracking features in Java and C for one of the first fully integrated satellite smartphones, developed for DoD applications.',
+  },
+  {
+    range: '2016–2020',
+    role: 'B.A. Computer Science & Entrepreneurship',
+    org: 'University of Virginia',
+    note: 'Graduated With Distinction and Phi Beta Kappa with a 3.9 GPA. Founding member of 180 Degrees Consulting and a discrete mathematics teaching assistant.',
+  },
+];
+---
+
+<BaseLayout
+  title="About · Justin Nguyễn"
+  description="Where Justin Nguyễn comes from, and what he is building toward."
+>
+  <div class="page">
+    <SonmaiCanvas />
+
+    <Nav active="about" variant="overlay" />
+
+    <section class="hero">
+      <div class="hero-scrim"></div>
+      <div class="hero-inner">
+        <div class="eyebrow hero-eyebrow">About</div>
+        <h1 class="hero-title">Where I come from, and what I am building toward.</h1>
+      </div>
+      <div class="scroll-cue">&darr;</div>
+    </section>
+
+    <div class="body">
+      <div class="bio">
+        <p class="lead-para">
+          I am a strategist and a builder. For the last six years I have moved between the whiteboard
+          and the codebase, taking things that are ambiguous and making them real.
+        </p>
+
+        <div class="prose">
+          <p>
+            My family is from Việt Nam, and that heritage is the quiet through-line of how I work:
+            patience, layering, and a respect for craft that I trace back to sơn mài, the lacquer
+            painting built up coat by coat until it glows. I grew up between that culture and an
+            American one, and today I live and work in the Washington, D.C. area.
+          </p>
+          <p>
+            I care less about titles than about the shape of a problem. Give me something tangled and
+            under-defined, and the work I most enjoy is giving it structure, building the first
+            version, and shipping it to someone real.
+          </p>
+        </div>
+
+        <blockquote class="pull">
+          <p>Take something ambiguous, give it structure, and make it real.</p>
+        </blockquote>
+      </div>
+
+      <div class="section">
+        <h2>The path</h2>
+        <div class="rule path-rule"></div>
+        {
+          timeline.map((t) => (
+            <div class="entry">
+              <div class="range">{t.range}</div>
+              <div>
+                <div class="role">{t.role}</div>
+                <div class="org">{t.org}</div>
+                <p class="note">{t.note}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="section beyond">
+        <h2>Beyond the work</h2>
+        <div class="rule beyond-rule"></div>
+        <p class="beyond-copy">
+          Outside of work I am usually in the water or making something with my hands. I swam varsity
+          and club, I grew up building robots and 3D-printing parts at all hours, and I still chase
+          that feeling of taking an idea and producing the physical thing. The corner of Vietnamese
+          culture I hold closest is the food and the long table it gathers people around. A good
+          weekend has a hard problem, a long swim, and a meal worth lingering over.
+        </p>
+      </div>
+
+      <div class="section cta-wrap">
+        <div class="cta">
+          <div class="status">
+            <span class="dot"></span>
+            <span class="status-text">
+              Currently exploring operator and product roles at growth-stage companies.
+            </span>
+          </div>
+          <h2 class="cta-title">Let us talk.</h2>
+          <p class="cta-copy">
+            If you are building something ambiguous and real, I would love to hear about it.
+          </p>
+          <div class="cta-links">
+            <a href="mailto:justintknguyen@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/justintknguyen/">LinkedIn</a>
+            <a href="https://github.com/daherro">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page { position: relative; }
+
+  .hero {
+    position: relative;
+    z-index: 2;
+    height: 100vh;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(10, 7, 6, 0.5) 0%, rgba(10, 7, 6, 0) 22%, rgba(10, 7, 6, 0) 52%, rgba(10, 7, 6, 0.72) 100%);
+  }
+  .hero-inner { position: relative; max-width: var(--maxw); width: 100%; margin: 0 auto; padding: 0 var(--pad-x) 92px var(--pad-x); }
+  .hero-eyebrow { margin-bottom: 24px; text-shadow: 0 1px 18px rgba(0, 0, 0, 0.9); }
+  .hero-title {
+    font-family: var(--font-display);
+    margin: 0;
+    padding-bottom: 0.04em;
+    font-size: clamp(40px, 5.6vw, 80px);
+    line-height: 1.08;
+    font-weight: 600;
+    color: var(--ink-brightest);
+    max-width: 880px;
+    text-shadow: 0 3px 40px rgba(0, 0, 0, 0.8);
+  }
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: #d8cfbc;
+    font-size: 22px;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.5; }
+    50% { transform: translate(-50%, 7px); opacity: 1; }
+  }
+
+  .body { position: relative; z-index: 2; background: var(--bg); border-top: 1px solid rgba(227, 184, 100, 0.22); }
+  .bio { max-width: var(--maxw-read); margin: 0 auto; padding: 96px 32px 0 32px; }
+  .lead-para {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1.32;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .prose { font-size: 19px; line-height: 1.8; color: var(--ink-softer); margin-top: 40px; }
+  .prose p { margin: 0 0 26px 0; }
+  .prose p:last-child { margin-bottom: 0; }
+  .pull { margin: 52px 0; padding: 0 0 0 30px; border-left: 2px solid var(--celadon-deep); }
+  .pull p { font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.36; color: var(--celadon); margin: 0; }
+
+  .section { max-width: var(--maxw-read); margin: 0 auto; padding: 24px 32px 0 32px; }
+  .section h2 { font-family: var(--font-display); font-size: 30px; font-weight: 600; color: var(--ink-bright); margin: 0 0 8px 0; }
+  .path-rule { margin-bottom: 10px; }
+  .entry { display: grid; grid-template-columns: 120px 1fr; gap: 28px; padding: 30px 0; border-bottom: 1px solid rgba(227, 184, 100, 0.14); }
+  .range { font-size: 14px; color: var(--celadon); font-variant-numeric: tabular-nums; padding-top: 0.5em; }
+  .role { font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--ink); line-height: 1.15; }
+  .org { font-size: 15px; color: var(--celadon); margin-top: 4px; }
+  .note { margin: 12px 0 0 0; font-size: 16.5px; line-height: 1.65; color: var(--muted); }
+
+  .beyond { padding-top: 64px; }
+  .beyond-rule { margin-bottom: 28px; }
+  .beyond-copy { margin: 0; font-size: 19px; line-height: 1.8; color: var(--ink-softer); }
+
+  .cta-wrap { padding: 64px 32px 96px 32px; }
+  .cta { border: 1px solid var(--rule); border-radius: 3px; padding: 44px 40px; background: linear-gradient(180deg, rgba(227, 184, 100, 0.05), rgba(227, 184, 100, 0)); }
+  .status { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--celadon-dot); box-shadow: 0 0 0 4px rgba(143, 176, 155, 0.18), 0 0 14px rgba(143, 176, 155, 0.7); }
+  .status-text { font-size: 14px; color: var(--celadon); }
+  .cta-title { font-family: var(--font-display); font-size: clamp(30px, 4vw, 44px); font-weight: 600; color: var(--ink-bright); margin: 0; line-height: 1.12; }
+  .cta-copy { margin: 14px 0 28px 0; font-size: 18px; line-height: 1.6; color: var(--muted-link); max-width: 520px; }
+  .cta-links { display: flex; gap: 26px; font-size: 15px; }
+  .cta-links a { color: var(--gold); border-bottom: 1px solid rgba(227, 184, 100, 0.45); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+  .cta-links a:hover { color: var(--ink-bright); border-color: var(--ink-bright); }
+
+  @media (max-width: 640px) {
+    .entry { grid-template-columns: 1fr; gap: 8px; }
+    .range { padding-top: 0; }
+  }
+</style>
