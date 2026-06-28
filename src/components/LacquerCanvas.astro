@@ -14,7 +14,6 @@
     width: 100%;
     height: 100vh;
     height: 100lvh;
-    height: var(--vh-stable, 100lvh);
     z-index: 0;
     display: block;
     pointer-events: none;
@@ -26,7 +25,6 @@
     width: 100%;
     height: 100vh;
     height: 100lvh;
-    height: var(--vh-stable, 100lvh);
     z-index: 1;
     pointer-events: none;
     background: linear-gradient(
@@ -218,6 +216,25 @@
 
       ctx.globalCompositeOperation = 'lighter';
       ctx.drawImage(tmp, 0, 0, W, H);
+
+      // Touch devices have no cursor to create a hotspot, so the gold-fleck
+      // reveal alone reads as nothing on the dark lacquer. Add a proximity
+      // sheen that lights up the whole surface around the drifting light.
+      if (noHover) {
+        tctx.globalCompositeOperation = 'source-over';
+        tctx.clearRect(0, 0, W, H);
+        tctx.drawImage(bright, cv.dx, cv.dy, cv.dw, cv.dh);
+        tctx.globalCompositeOperation = 'destination-in';
+        const sheen = tctx.createRadialGradient(lx, ly, 0, lx, ly, R * 0.85);
+        sheen.addColorStop(0, 'rgba(255,255,255,' + 0.6 * breath + ')');
+        sheen.addColorStop(1, 'rgba(255,255,255,0)');
+        tctx.fillStyle = sheen;
+        tctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = 0.55;
+        ctx.drawImage(tmp, 0, 0, W, H);
+        ctx.globalAlpha = 1;
+      }
 
       const gr = R * 0.92;
       for (const gp of glints) {
