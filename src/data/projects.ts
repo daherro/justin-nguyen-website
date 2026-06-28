@@ -22,7 +22,8 @@ export const projects: Project[] = [
   },
   {
     title: 'Chronicle',
-    description: 'An early-stage platform I am currently designing and building in Claude Code.',
+    description:
+      "A platform I am building to record and preserve a loved one's life story in their own voice, so a family's memories last for generations. I started it after losing my grandmother.",
     category: 'Side Project',
     year: '2026',
     modal:
@@ -31,7 +32,7 @@ export const projects: Project[] = [
   {
     title: 'Reddit Signal Scanner',
     description:
-      'A tool I built in Claude Code that scans Reddit for early signals on high-growth companies.',
+      'A scanner I built in Claude Code that mines Reddit for emerging stock tickers and ranks them by upvote-weighted mentions and sentiment, with price and fundamentals filtering.',
     category: 'Side Project',
     year: '2026',
     modal:
