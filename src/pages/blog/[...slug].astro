@@ -83,16 +83,24 @@ const minutes = readingMinutes(post.body);
 <style>
   .page { position: relative; min-height: 100vh; }
   .ground { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-  .base { position: fixed; inset: 0; background: var(--bg); }
-  .texture {
+  /* Stable large-viewport sizing so the iOS address bar does not rescale
+     the fixed background on scroll. 100vh is the fallback. */
+  .base,
+  .texture,
+  .scrim {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+  }
+  .base { background: var(--bg); }
+  .texture {
     background: url('/assets/lacquer-texture.png') center / cover no-repeat;
     opacity: 0.1;
   }
   .scrim {
-    position: fixed;
-    inset: 0;
     z-index: 1;
     background: linear-gradient(180deg, rgba(10, 7, 6, 0.86) 0%, rgba(10, 7, 6, 0.7) 30%, rgba(10, 7, 6, 0.78) 100%);
   }

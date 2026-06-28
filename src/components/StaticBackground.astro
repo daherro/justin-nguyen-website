@@ -19,11 +19,21 @@ const {
 
 <style>
   .ground { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-  .base { position: fixed; inset: 0; background: var(--bg); }
-  .texture {
+  /* Size to the large viewport so the iOS address bar collapsing on scroll
+     does not rescale the fixed background. 100vh is the stable fallback. */
+  .base,
+  .texture,
+  .scrim {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+  }
+  .base { background: var(--bg); }
+  .texture {
     background: url('/assets/lacquer-texture.png') center / cover no-repeat;
   }
-  .scrim { position: fixed; inset: 0; z-index: 1; }
+  .scrim { z-index: 1; }
 </style>

@@ -9,16 +9,22 @@
 <style>
   #lacquer-canvas {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    height: 100lvh;
     z-index: 0;
     display: block;
     pointer-events: none;
   }
   .scrim {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     z-index: 1;
     pointer-events: none;
     background: linear-gradient(
@@ -147,9 +153,15 @@
 
     function layout() {
       if (!img) return;
+      // Read the canvas's stable CSS box (100lvh) rather than window.innerHeight,
+      // which fluctuates as the iOS address bar shows/hides during scroll.
+      const newW = cvs!.clientWidth;
+      const newH = cvs!.clientHeight;
+      // Skip no-op relayouts so scroll-driven resize events do not clear/rescale the canvas.
+      if (newW === W && newH === H && cvs!.width) return;
       dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-      W = window.innerWidth;
-      H = window.innerHeight;
+      W = newW;
+      H = newH;
       cvs!.width = W * dpr;
       cvs!.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
