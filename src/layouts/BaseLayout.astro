@@ -26,6 +26,40 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
+    <!--
+      Browser-agnostic stable viewport height for fixed backgrounds.
+      On touch devices that do not honor `lvh`, the dynamic address bar would
+      otherwise rescale fixed backgrounds on scroll. We lock `--vh-stable` to
+      the largest viewport height seen (it only ever grows, never shrinks),
+      so backgrounds never shrink mid-scroll. Desktop is untouched.
+    -->
+    <script is:inline>
+      (function () {
+        if (!(window.matchMedia && window.matchMedia('(hover: none)').matches)) return;
+        var root = document.documentElement;
+        var lastW = window.innerWidth;
+        var maxH = 0;
+        function update() {
+          if (window.innerHeight > maxH) {
+            maxH = window.innerHeight;
+            root.style.setProperty('--vh-stable', maxH + 'px');
+          }
+        }
+        update();
+        window.addEventListener(
+          'resize',
+          function () {
+            if (window.innerWidth !== lastW) {
+              lastW = window.innerWidth;
+              maxH = 0;
+            }
+            update();
+          },
+          { passive: true }
+        );
+      })();
+    </script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

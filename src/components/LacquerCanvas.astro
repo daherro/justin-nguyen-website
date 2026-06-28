@@ -14,6 +14,7 @@
     width: 100%;
     height: 100vh;
     height: 100lvh;
+    height: var(--vh-stable, 100lvh);
     z-index: 0;
     display: block;
     pointer-events: none;
@@ -25,6 +26,7 @@
     width: 100%;
     height: 100vh;
     height: 100lvh;
+    height: var(--vh-stable, 100lvh);
     z-index: 1;
     pointer-events: none;
     background: linear-gradient(
@@ -43,6 +45,9 @@
     const ctx = cvs.getContext('2d')!;
     const reduced =
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Touch devices have no cursor to drive the spotlight, so the idle glow on
+    // the dark lacquer reads as nothing. Boost its radius and warm bloom there.
+    const noHover = window.matchMedia && window.matchMedia('(hover: none)').matches;
 
     let lx = window.innerWidth * 0.5;
     let ly = window.innerHeight * 0.45;
@@ -189,7 +194,9 @@
       const ease = now - lastMove < 2400 ? 0.28 : 0.08;
       lx += (tx - lx) * ease;
       ly += (ty - ly) * ease;
-      const R = Math.max(260, Math.min(W, H) * 0.32);
+      const R = noHover
+        ? Math.max(380, Math.min(W, H) * 0.6)
+        : Math.max(260, Math.min(W, H) * 0.32);
       const breath = reduced ? 1 : 0.92 + 0.08 * Math.sin(t * 0.9);
 
       ctx.globalCompositeOperation = 'source-over';
@@ -236,7 +243,7 @@
       }
 
       const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, R * 1.1);
-      halo.addColorStop(0, 'rgba(224,180,104,0.05)');
+      halo.addColorStop(0, 'rgba(224,180,104,' + (noHover ? 0.16 : 0.05) + ')');
       halo.addColorStop(1, 'rgba(224,180,104,0)');
       ctx.fillStyle = halo;
       ctx.fillRect(0, 0, W, H);
