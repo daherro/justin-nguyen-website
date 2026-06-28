@@ -28,22 +28,36 @@ import { projects } from '../data/projects';
 
       <section class="index">
         {
-          projects.map((p, i) => (
-            <a href={p.href} class="row">
-              <span class="num">{String(i + 1).padStart(2, '0')}</span>
-              <span>
-                <span class="title">{p.title}</span>
-                <span class="desc">{p.description}</span>
-                <span class="tags">
-                  <span class="chip">{p.category}</span>
-                  <span class="chip">{p.year}</span>
+          projects.map((p, i) => {
+            const Tag = p.href ? 'a' : 'button';
+            const attrs = p.href
+              ? { href: p.href, target: '_blank', rel: 'noopener noreferrer' }
+              : { type: 'button', 'data-modal-title': p.title, 'data-modal-msg': p.modal };
+            return (
+              <Tag class="row" {...attrs}>
+                <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                <span>
+                  <span class="title">{p.title}</span>
+                  <span class="desc">{p.description}</span>
+                  <span class="tags">
+                    <span class="chip">{p.category}</span>
+                    <span class="chip">{p.year}</span>
+                  </span>
                 </span>
-              </span>
-              <span class="arrow">&rarr;</span>
-            </a>
-          ))
+                <span class="arrow">{p.href ? '↗' : '→'}</span>
+              </Tag>
+            );
+          })
         }
       </section>
+
+      <dialog id="project-modal" class="modal">
+        <div class="modal-card">
+          <h2 class="modal-title" id="modal-title"></h2>
+          <p class="modal-msg" id="modal-msg"></p>
+          <button type="button" class="modal-close" id="modal-close">Close</button>
+        </div>
+      </dialog>
 
       <Footer marginTop="96px" />
     </div>
@@ -84,8 +98,20 @@ import { projects } from '../data/projects';
     border-bottom: 1px solid var(--rule-soft);
     color: var(--ink);
     transition: color 0.22s ease, padding-left 0.22s ease, background-color 0.22s ease;
+    /* resets so <button> rows match <a> rows */
+    width: 100%;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
   }
   .row:hover { color: var(--gold); padding-left: 20px; background-color: rgba(227, 184, 100, 0.05); }
+  .row:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
   .num {
     font-size: 16px;
     font-weight: 500;
@@ -116,4 +142,78 @@ import { projects } from '../data/projects';
     .num { padding-top: 0; }
     .arrow { display: none; }
   }
+
+  /* ===== modal ===== */
+  .modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    width: min(480px, calc(100vw - 40px));
+    color: var(--ink);
+  }
+  .modal::backdrop {
+    background: rgba(8, 6, 5, 0.72);
+    backdrop-filter: blur(2px);
+  }
+  .modal-card {
+    background: #14100c;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 36px 34px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink-bright);
+    margin: 0 0 14px 0;
+    line-height: 1.15;
+  }
+  .modal-msg {
+    font-size: 16.5px;
+    line-height: 1.62;
+    color: var(--ink-softer);
+    margin: 0 0 28px 0;
+  }
+  .modal-close {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 1px solid rgba(227, 184, 100, 0.45);
+    border-radius: 2px;
+    color: var(--gold);
+    font: inherit;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 9px 22px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .modal-close:hover {
+    color: var(--ink-bright);
+    border-color: var(--ink-bright);
+    background-color: rgba(227, 184, 100, 0.06);
+  }
 </style>
+
+<script>
+  const dlg = document.getElementById('project-modal') as HTMLDialogElement | null;
+  const titleEl = document.getElementById('modal-title');
+  const msgEl = document.getElementById('modal-msg');
+
+  if (dlg) {
+    document.querySelectorAll<HTMLElement>('[data-modal-msg]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (titleEl) titleEl.textContent = btn.getAttribute('data-modal-title') || '';
+        if (msgEl) msgEl.textContent = btn.getAttribute('data-modal-msg') || '';
+        dlg.showModal();
+      });
+    });
+    document.getElementById('modal-close')?.addEventListener('click', () => dlg.close());
+    // click on the backdrop (outside the card) closes the dialog
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+  }
+</script>
