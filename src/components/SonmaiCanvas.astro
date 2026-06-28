@@ -71,17 +71,37 @@
     function prepare() {
       iw = img.naturalWidth;
       ih = img.naturalHeight;
-      const mk = (filter: string) => {
+      // Apply brightness/saturate/contrast in pixel space rather than via
+      // ctx.filter, which older iOS Safari/WebKit silently ignores (leaving the
+      // base image at full brightness and killing the glow's contrast on mobile).
+      const mk = (br: number, sat: number, con: number) => {
         const c = document.createElement('canvas');
         c.width = iw;
         c.height = ih;
         const x = c.getContext('2d')!;
-        x.filter = filter;
         x.drawImage(img, 0, 0);
+        const id = x.getImageData(0, 0, iw, ih);
+        const p = id.data;
+        for (let i = 0; i < p.length; i += 4) {
+          let r = p[i] * br,
+            g = p[i + 1] * br,
+            b = p[i + 2] * br;
+          const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          r = lum + sat * (r - lum);
+          g = lum + sat * (g - lum);
+          b = lum + sat * (b - lum);
+          r = (r - 127.5) * con + 127.5;
+          g = (g - 127.5) * con + 127.5;
+          b = (b - 127.5) * con + 127.5;
+          p[i] = r < 0 ? 0 : r > 255 ? 255 : r;
+          p[i + 1] = g < 0 ? 0 : g > 255 ? 255 : g;
+          p[i + 2] = b < 0 ? 0 : b > 255 ? 255 : b;
+        }
+        x.putImageData(id, 0, 0);
         return c;
       };
-      baseDim = mk('brightness(0.34) saturate(0.82) contrast(1.05)');
-      bright = mk('brightness(1.95) saturate(1.55) contrast(1.14)');
+      baseDim = mk(0.34, 0.82, 1.05);
+      bright = mk(1.95, 1.55, 1.14);
 
       const plain = document.createElement('canvas');
       plain.width = iw;
