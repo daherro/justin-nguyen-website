@@ -35,8 +35,7 @@ export const projects: Project[] = [
       'A scanner that mines Reddit for emerging stock tickers and ranks them by upvote-weighted mentions and sentiment, with price and fundamentals filtering.',
     category: 'Side Project',
     year: '2026',
-    modal:
-      'This project is currently in progress. I will publish it here once it is ready.',
+    href: 'https://reddit-signal-scanner.vercel.app/',
   },
   {
     title: 'Lot Armor',
