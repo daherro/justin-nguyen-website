@@ -1,12 +1,12 @@
 ---
 title: Borders are a small idea
-date: 2026-06-28
+date: 2026-06-20
 topic: Worldview
 summary: Why the borders we fight over are a small idea, and where I keep finding reason to believe we're better together.
 standfirst: I'm tired of the news. But even in the places built for rivalry, I keep finding evidence that we're stronger together, and it has me thinking hard about the world I want to leave behind.
 ---
 
-I've got a bad habit. Most mornings I open the news before I've even had coffee, and most mornings I close it feeling a little worse about us. Another war. Another atrocity. Another great power doing something cynical and calling it necessary. The names change; the story rarely does.
+I don't follow the news religiously, but it finds me anyway. A clip on YouTube, a post in my feed, and there it is. Another war. Another atrocity. Another great power doing something cynical and calling it necessary. I usually come away feeling a little worse about us, because the names change but the story rarely does.
 
 It would be easy to let that curdle into cynicism, and for a while it did. But lately I keep tripping over evidence that points the other way, and I've started collecting it the way you hold onto something you don't want to lose.
 
