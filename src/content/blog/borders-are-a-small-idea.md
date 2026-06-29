@@ -24,9 +24,9 @@ If rivalry can give way to partnership there, in the place built for it, I have 
 
 Around the same time, I listened to [Jonny Kim speak at Harvard's Alumni Day](https://www.youtube.com/watch?v=G96-xYqw0rQ). Kim has lived several lifetimes. He was a Navy SEAL who ran more than a hundred combat operations, then a doctor, and now a NASA astronaut who has seen this planet from orbit. If anyone has earned the right to talk about strength and rivalry, it's him.
 
-What he chose to talk about was love. Loving one another regardless of race, religion, or creed. Coming from a man who has seen the worst of what we do to each other, and then seen the whole Earth from above with no lines drawn on it, that didn't sound naive. It sounded like the conclusion of someone who had actually looked.
+What he chose to talk about was love. Loving one another regardless of race, religion, or creed. Coming from a man who has seen the worst of what we do to each other, and then seen the whole Earth from above with no lines drawn on it, that didn't sound naive. It sounded like the conclusion of someone who had actually looked. Here is how he put it:
 
-> We have far more in common than our maps suggest, and almost nothing worth destroying each other over.
+> Always lead with your heart. Take off your armor. Exercise empathy, especially towards people you disagree with. It is the only path by which we can coexist, leaving this fragile, beautiful spaceship we call Earth better than we found it.
 
 ## The long game is the only game
 
