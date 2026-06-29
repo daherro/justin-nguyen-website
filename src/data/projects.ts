@@ -32,7 +32,7 @@ export const projects: Project[] = [
   {
     title: 'Reddit Signal Scanner',
     description:
-      'A scanner that mines Reddit for emerging stock tickers and ranks them by upvote-weighted mentions and sentiment, with price and fundamentals filtering.',
+      'A factor-driven stock recommendation dashboard. Scores a curated watchlist with a multi-factor quant model, builds a risk-optimized allocation via Black-Litterman, and forecasts portfolio outcomes with Monte Carlo simulation. Reddit surfaces new candidates; the model decides if they make the cut.',
     category: 'Side Project',
     year: '2026',
     href: 'https://reddit-signal-scanner.vercel.app/',
