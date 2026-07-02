@@ -80,6 +80,9 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
         );
         els.forEach((el) => io.observe(el));
       }
+      // Run immediately as well: in production bundles the initial
+      // astro:page-load can fire before this module's listener registers.
+      setupReveals();
       document.addEventListener('astro:page-load', setupReveals);
     </script>
   </body>

@@ -226,7 +226,8 @@ import { projects } from '../data/projects';
     const dlg = document.getElementById('project-modal') as HTMLDialogElement | null;
     const titleEl = document.getElementById('modal-title');
     const msgEl = document.getElementById('modal-msg');
-    if (!dlg) return;
+    if (!dlg || dlg.dataset.bound) return;
+    dlg.dataset.bound = 'true';
 
     document.querySelectorAll<HTMLElement>('[data-modal-msg]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -241,5 +242,8 @@ import { projects } from '../data/projects';
       if (e.target === dlg) dlg.close();
     });
   }
+  // Run immediately as well: in production bundles the initial
+  // astro:page-load can fire before this module's listener registers.
+  initProjectModal();
   document.addEventListener('astro:page-load', initProjectModal);
 </script>
