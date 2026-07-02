@@ -8,7 +8,7 @@ standfirst: I'm tired of the news. But even in the places built for rivalry, I k
 
 I don't follow the news religiously, but it finds me anyway. A clip on YouTube, a post in my feed, and there it is. Another war. Another atrocity. Another great power doing something cynical and calling it necessary. I usually come away feeling a little worse about us, because the names change but the story rarely does.
 
-It would be easy to let that curdle into cynicism, and for a while it did. But lately I keep tripping over evidence that points the other way, and I've started collecting it the way you hold onto something you don't want to lose.
+It would be easy to let that curdle into cynicism, and for a while it did. But lately I keep tripping over evidence that points the other way, and I've started collecting it the way you hold onto something you don't want to lose. Or the way a hoarder holds onto anything, really. Let's go with the nicer read.
 
 The piece that surprised me most came from space, of all places, and from the military, of all institutions.
 
@@ -30,12 +30,12 @@ What he chose to talk about was love. Loving one another regardless of race, rel
 
 ## The long game is the only game
 
-Here's the part I believe as arithmetic, not as a slogan. The universe is almost unimaginably vast, and we're spending our short window on the one rock we have fighting over its corners while its resources quietly run down. Play that forward a few hundred or a few thousand years, and the likeliest cause of our extinction isn't an asteroid or a dying sun. It's us. The only version of that story that ends well is the one where we stop treating each other as the enemy long enough to figure out how to reach beyond this planet together.
+Here's the part I believe as arithmetic, not as a slogan. The universe is almost unimaginably vast, and we're spending our short window on the one rock we have fighting over its corners while its resources quietly run down. Play that forward a few hundred or a few thousand years and ask yourself honestly what's actually going to kill us. Not an asteroid. Not a dying sun. Us. The only version of that story that ends well is the one where we stop treating each other as the enemy long enough to figure out how to reach beyond this planet together.
 
 Borders made sense as a way to organize a crowded, frightened species. But against the scale of what's actually out there, they're a small idea. We're going to need a bigger one.
 
 ## My north star
 
-I don't have any illusion that I'll fix this. But I know what I'm pointed at. I want to leave the world a little better than I found it, for my family and for the generations who'll never know my name. I want my kids, and theirs, to inherit a species that finally decided to grow up. So I keep paying attention to the proof that we can, I keep collecting it, and whenever I get the chance to build something, I try to build it in that direction.
+I'm not going to fix this. I know that. But I know what I'm pointed at. I want to leave the world a little better than I found it, for my family and for the generations who'll never know my name. I want my kids, and theirs, to inherit a species that finally decided to grow up. So I keep paying attention to the proof that we can, I keep collecting it, and whenever I get the chance to build something, I try to build it in that direction.
 
 That last part is the whole reason I write any of this down.
