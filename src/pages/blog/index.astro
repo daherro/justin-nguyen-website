@@ -24,19 +24,19 @@ const [featured, ...rest] = posts;
       <Nav active="blog" variant="flow" />
 
       <header class="header">
-        <div class="eyebrow">Writing</div>
-        <h1>Blog</h1>
-        <p class="lede">
+        <div class="eyebrow" data-reveal>Writing</div>
+        <h1 data-reveal style="--reveal-delay: 0.08s">Blog</h1>
+        <p class="lede" data-reveal style="--reveal-delay: 0.16s">
           Notes on strategy, technology, and the ideas I keep returning to, written to think more
           clearly and shared in case they are useful.
         </p>
-        <div class="rule"></div>
+        <div class="rule" data-reveal style="--reveal-delay: 0.24s"></div>
       </header>
 
       {
         featured && (
           <section class="featured-wrap">
-            <a href={`/blog/${featured.id}/`} class="featured">
+            <a href={`/blog/${featured.id}/`} class="featured" data-reveal style="--reveal-delay: 0.28s">
               <div class="meta">
                 <span class="eyebrow small">Featured</span>
                 <span class="dotsep" />
@@ -54,8 +54,8 @@ const [featured, ...rest] = posts;
 
       <section class="index">
         {
-          rest.map((post) => (
-            <a href={`/blog/${post.id}/`} class="row">
+          rest.map((post, i) => (
+            <a href={`/blog/${post.id}/`} class="row" data-reveal style={`--reveal-delay: ${Math.min(0.34 + i * 0.06, 0.5)}s`}>
               <span class="date col">{formatDate(post.data.date)}</span>
               <span>
                 <span class="r-title">{post.data.title}</span>
@@ -124,6 +124,8 @@ const [featured, ...rest] = posts;
     font-weight: 300;
   }
   .read { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; font-size: 15px; color: var(--celadon); }
+  .read .arrow { transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+  .featured:hover .read .arrow { transform: translateX(5px); }
 
   .index { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
   .row {

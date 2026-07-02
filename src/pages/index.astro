@@ -5,7 +5,10 @@ import Footer from '../components/Footer.astro';
 import LacquerCanvas from '../components/LacquerCanvas.astro';
 ---
 
-<BaseLayout title="Justin Nguyễn · Strategist & Builder">
+<BaseLayout
+  title="Justin Nguyễn · Strategist & Builder"
+  preloadImage="/assets/lacquer-texture.webp"
+>
   <div class="page">
     <LacquerCanvas />
 
@@ -13,11 +16,13 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
       <Nav active={null} />
 
       <section class="hero">
-        <div class="eyebrow hero-eyebrow">Strategist &amp; Builder</div>
-        <h1 class="name">Justin<br />Nguyễn</h1>
-        <p class="tagline">I structure ambiguous problems, build the thing, and ship it.</p>
+        <div class="eyebrow hero-eyebrow" data-reveal>Strategist &amp; Builder</div>
+        <h1 class="name" data-reveal style="--reveal-delay: 0.1s">Justin<br />Nguyễn</h1>
+        <p class="tagline" data-reveal style="--reveal-delay: 0.22s">
+          I structure ambiguous problems, build the thing, and ship it.
+        </p>
 
-        <div class="status">
+        <div class="status" data-reveal style="--reveal-delay: 0.34s">
           <span class="dot"></span>
           <span class="status-text">
             Currently exploring operator and product roles at growth-stage companies.
@@ -26,9 +31,9 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
       </section>
 
       <section class="intro">
-        <div class="rule-center"></div>
+        <div class="rule-center" data-reveal></div>
         <div class="intro-grid">
-          <p class="intro-copy">
+          <p class="intro-copy" data-reveal style="--reveal-delay: 0.08s">
             I've spent the last six years moving between consulting and product work. At Oliver Wyman
             I lead strategy and product for enterprise clients, and I built The Hub, a 0-to-1 AI
             platform that shipped to five of them. Before that I ran a 10-person team at Microsoft,
@@ -37,7 +42,7 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
           </p>
 
           <div class="entries">
-            <a href="/projects" class="entry">
+            <a href="/projects" class="entry" data-reveal style="--reveal-delay: 0.16s">
               <span class="num">01</span>
               <span class="entry-body">
                 <span class="entry-title">Projects</span><br />
@@ -45,7 +50,7 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
               </span>
               <span class="arrow">&rarr;</span>
             </a>
-            <a href="/blog" class="entry">
+            <a href="/blog" class="entry" data-reveal style="--reveal-delay: 0.24s">
               <span class="num">02</span>
               <span class="entry-body">
                 <span class="entry-title">Blog</span><br />
@@ -142,7 +147,13 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
   .entry-body { flex: 1; }
   .entry-title { font-family: var(--font-display); font-size: 40px; font-weight: 600; }
   .entry-sub { font-size: 15px; color: var(--muted); }
-  .arrow { color: var(--celadon); font-size: 21px; align-self: center; }
+  .arrow {
+    color: var(--celadon);
+    font-size: 21px;
+    align-self: center;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .entry:hover .arrow { transform: translateX(6px); }
 
   @media (max-width: 820px) {
     .intro-grid { grid-template-columns: 1fr; gap: 48px; }

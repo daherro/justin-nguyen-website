@@ -17,13 +17,13 @@ import { projects } from '../data/projects';
       <Nav active="projects" variant="flow" />
 
       <header class="header">
-        <div class="eyebrow">Selected Work</div>
-        <h1>Projects</h1>
-        <p class="lede">
+        <div class="eyebrow" data-reveal>Selected Work</div>
+        <h1 data-reveal style="--reveal-delay: 0.08s">Projects</h1>
+        <p class="lede" data-reveal style="--reveal-delay: 0.16s">
           A working record of the things I have built, shipped, and run, across strategy, product,
           and the occasional thing made entirely on my own.
         </p>
-        <div class="rule"></div>
+        <div class="rule" data-reveal style="--reveal-delay: 0.24s"></div>
       </header>
 
       <section class="index">
@@ -34,7 +34,7 @@ import { projects } from '../data/projects';
               ? { href: p.href, target: '_blank', rel: 'noopener noreferrer' }
               : { type: 'button', 'data-modal-title': p.title, 'data-modal-msg': p.modal };
             return (
-              <Tag class="row" {...attrs}>
+              <Tag class="row" data-reveal style={`--reveal-delay: ${Math.min(i * 0.06, 0.3)}s`} {...attrs}>
                 <span class="num">{String(i + 1).padStart(2, '0')}</span>
                 <span>
                   <span class="title">{p.title}</span>
@@ -135,7 +135,15 @@ import { projects } from '../data/projects';
     max-width: 560px;
   }
   .tags { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-  .arrow { font-size: 22px; opacity: 0.6; align-self: center; }
+  .arrow {
+    font-size: 22px;
+    opacity: 0.6;
+    align-self: center;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+  }
+  /* external links carry ↗ so they lift up-and-right; modal rows slide right */
+  a.row:hover .arrow { transform: translate(4px, -4px); opacity: 1; }
+  button.row:hover .arrow { transform: translateX(6px); opacity: 1; }
 
   @media (max-width: 640px) {
     .row { grid-template-columns: 1fr; gap: 10px; }
@@ -154,6 +162,20 @@ import { projects } from '../data/projects';
   .modal::backdrop {
     background: rgba(8, 6, 5, 0.72);
     backdrop-filter: blur(2px);
+  }
+  .modal[open] .modal-card {
+    animation: modal-in 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .modal[open]::backdrop {
+    animation: backdrop-in 0.26s ease;
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes backdrop-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   .modal-card {
     background: #14100c;
@@ -198,11 +220,14 @@ import { projects } from '../data/projects';
 </style>
 
 <script>
-  const dlg = document.getElementById('project-modal') as HTMLDialogElement | null;
-  const titleEl = document.getElementById('modal-title');
-  const msgEl = document.getElementById('modal-msg');
+  // Re-bind after every client-side navigation: the ClientRouter swaps in a
+  // fresh DOM but module scripts only execute once per session.
+  function initProjectModal() {
+    const dlg = document.getElementById('project-modal') as HTMLDialogElement | null;
+    const titleEl = document.getElementById('modal-title');
+    const msgEl = document.getElementById('modal-msg');
+    if (!dlg) return;
 
-  if (dlg) {
     document.querySelectorAll<HTMLElement>('[data-modal-msg]').forEach((btn) => {
       btn.addEventListener('click', () => {
         if (titleEl) titleEl.textContent = btn.getAttribute('data-modal-title') || '';
@@ -216,4 +241,5 @@ import { projects } from '../data/projects';
       if (e.target === dlg) dlg.close();
     });
   }
+  document.addEventListener('astro:page-load', initProjectModal);
 </script>

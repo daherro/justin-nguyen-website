@@ -33,9 +33,9 @@ const minutes = readingMinutes(post.body);
       <Nav active="blog" variant="flow" />
 
       <article class="article">
-        <a href="/blog" class="back"><span class="back-arrow">&larr;</span> All writing</a>
+        <a href="/blog" class="back" data-reveal><span class="back-arrow">&larr;</span> All writing</a>
 
-        <div class="meta">
+        <div class="meta" data-reveal style="--reveal-delay: 0.06s">
           <span class="topic">{post.data.topic}</span>
           <span class="dotsep"></span>
           <span class="date">{formatDate(post.data.date)}</span>
@@ -43,10 +43,10 @@ const minutes = readingMinutes(post.body);
           <span class="date">{minutes} min read</span>
         </div>
 
-        <h1 class="title">{post.data.title}</h1>
-        <p class="standfirst">{post.data.standfirst}</p>
+        <h1 class="title" data-reveal style="--reveal-delay: 0.12s">{post.data.title}</h1>
+        <p class="standfirst" data-reveal style="--reveal-delay: 0.2s">{post.data.standfirst}</p>
 
-        <div class="rule article-rule"></div>
+        <div class="rule article-rule" data-reveal style="--reveal-delay: 0.28s"></div>
 
         <div class="post-body">
           <Content />
@@ -97,7 +97,7 @@ const minutes = readingMinutes(post.body);
   }
   .base { background: var(--bg); }
   .texture {
-    background: url('/assets/lacquer-texture.png') center / cover no-repeat;
+    background: url('/assets/lacquer-texture.webp') center / cover no-repeat;
     opacity: 0.1;
   }
   .scrim {
@@ -109,7 +109,8 @@ const minutes = readingMinutes(post.body);
   .article { max-width: 720px; margin: 0 auto; padding: 72px 32px 0 32px; }
   .back { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; color: var(--celadon); margin-bottom: 48px; transition: color 0.2s ease; }
   .back:hover { color: var(--gold); }
-  .back-arrow { font-size: 17px; }
+  .back-arrow { font-size: 17px; transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+  .back:hover .back-arrow { transform: translateX(-4px); }
 
   .meta { display: flex; gap: 14px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
   .topic { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--celadon); }
@@ -159,7 +160,8 @@ const minutes = readingMinutes(post.body);
   .next:hover { color: var(--gold); padding-left: 20px; }
   .next-label { display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-deep); margin-bottom: 8px; }
   .next-title { font-family: var(--font-display); font-size: 26px; font-weight: 600; }
-  .next-arrow { font-size: 22px; color: var(--celadon); }
+  .next-arrow { font-size: 22px; color: var(--celadon); transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+  .next:hover .next-arrow { transform: translateX(5px); }
 </style>
 
 <!-- Prose styling for markdown-rendered content (global, scoped under .post-body) -->

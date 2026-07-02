@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -6,12 +7,15 @@ interface Props {
   description?: string;
   /** Cormorant weights vary per page; pass the matching Google Fonts query. */
   ogImage?: string;
+  /** Hero image to preload (the canvas pages paint faster with a head start). */
+  preloadImage?: string;
 }
 
 const {
   title,
   description = 'Justin Nguyễn. Strategist and builder. I structure ambiguous problems, build the thing, and ship it.',
   ogImage = '/assets/sonmai-landscape.png',
+  preloadImage,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -25,6 +29,10 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} />}
+    <ClientRouter />
+    <!-- Reveal styles are gated on html.js so content stays visible without JS -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -48,5 +56,31 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
   </head>
   <body>
     <slot />
+    <script>
+      // Reveal-on-scroll driver for [data-reveal] elements (styles in global.css).
+      // Re-runs after every client-side navigation via astro:page-load.
+      function setupReveals() {
+        const els = document.querySelectorAll('[data-reveal]:not(.revealed)');
+        if (!('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('revealed'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          // threshold 0 so tall blocks reveal as soon as they enter; the small
+          // bottom margin keeps things from firing while still fully off-screen
+          { threshold: 0, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      }
+      document.addEventListener('astro:page-load', setupReveals);
+    </script>
   </body>
 </html>

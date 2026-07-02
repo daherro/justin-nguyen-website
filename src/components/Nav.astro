@@ -45,8 +45,22 @@ const links = [
   }
   .overlay .brand { color: var(--ink); text-shadow: 0 1px 16px rgba(0, 0, 0, 0.8); }
   .links { display: flex; gap: 34px; font-size: 15px; font-weight: 500; }
-  .link { color: var(--muted-nav); transition: color 0.2s ease; }
+  .link { position: relative; color: var(--muted-nav); transition: color 0.2s ease; }
   .overlay .link { color: #D8CFBC; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8); }
+  .link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link:hover::after,
+  .link.active::after { transform: scaleX(1); }
   .link:hover { color: var(--gold); }
   .link.active { color: var(--gold); }
 
