@@ -26,8 +26,7 @@ export const projects: Project[] = [
       "A platform I am building to record and preserve a loved one's life story in their own voice, so a family's memories last for generations. I started it to capture my grandmother's stories while she is still here.",
     category: 'Side Project',
     year: '2026',
-    modal:
-      'This project is currently in progress. I will publish it here once it is ready.',
+    href: 'https://chronicle-app.fly.dev/',
   },
   {
     title: 'Reddit Signal Scanner',
