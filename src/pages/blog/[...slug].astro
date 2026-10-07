@@ -12,7 +12,8 @@ export async function getStaticPaths() {
   return posts.map((post, i) => ({
     params: { slug: post.id },
     // pass the next (older) post for the "Next" link
-    props: { post, next: posts[i + 1] ?? null },
+    // the oldest post wraps around to the newest so no post is a dead end
+    props: { post, next: posts[i + 1] ?? (posts.length > 1 ? posts[0] : null) },
   }));
 }
 
@@ -22,7 +23,19 @@ const minutes = readingMinutes(post.body);
 ---
 
 <BaseLayout title={`${post.data.title} · Justin Nguyễn`} description={post.data.summary}>
-  <div class="page">
+  <div class="page post-page">
+    <!-- Set the reading theme before first paint: saved choice, else the OS preference. -->
+    <script is:inline data-astro-rerun>
+      (function () {
+        var page = document.querySelector('.post-page');
+        var theme = null;
+        try { theme = localStorage.getItem('reading-theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        if (page) page.setAttribute('data-theme', theme);
+      })();
+    </script>
     <div class="ground" aria-hidden="true">
       <div class="base"></div>
       <div class="texture"></div>
@@ -32,8 +45,15 @@ const minutes = readingMinutes(post.body);
     <div class="content">
       <Nav active="blog" variant="flow" />
 
+      <main>
       <article class="article">
-        <a href="/blog" class="back" data-reveal><span class="back-arrow">&larr;</span> All writing</a>
+        <div class="toolbar" data-reveal>
+          <a href="/blog" class="back"><span class="back-arrow">&larr;</span> All writing</a>
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+            <span class="swatch" aria-hidden="true"></span>
+            <span class="theme-label">Light mode</span>
+          </button>
+        </div>
 
         <div class="meta" data-reveal style="--reveal-delay: 0.06s">
           <span class="topic">{post.data.topic}</span>
@@ -61,6 +81,13 @@ const minutes = readingMinutes(post.body);
         </div>
       </article>
 
+      <section class="next-wrap outro">
+        <p class="outro-copy">
+          If this one stuck with you, or you think I got it wrong, I'd like to hear it.
+        </p>
+        <a href="mailto:justintknguyen@gmail.com" class="outro-link">Email me <span>&rarr;</span></a>
+      </section>
+
       {
         next && (
           <section class="next-wrap">
@@ -75,13 +102,44 @@ const minutes = readingMinutes(post.body);
         )
       }
 
+      </main>
+
       <Footer marginTop="80px" />
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .page { position: relative; min-height: 100vh; }
+  .page { position: relative; min-height: 100vh; background: var(--bg); transition: background-color 0.3s ease; }
+
+  /* ===== light reading theme (post pages only) ==========================
+     Same type and the same gold / celadon hues, deepened so they hold
+     contrast on paper. Everything below reads these tokens, including the
+     nav and footer, so overriding them on .post-page is the whole theme. */
+  .post-page[data-theme='light'] {
+    --bg: #F5EFE1;
+    --ink: #2A2118;
+    --ink-bright: #1D160E;
+    --ink-brightest: #1D160E;
+    --ink-soft: #33291F;
+    --ink-softer: #3B3126;
+    --ink-nav: #2A2118;
+    --muted: #645A4B;
+    --muted-deep: #6A6050;
+    --muted-nav: #554B3D;
+    --muted-link: #4E4537;
+    --gold: #865D10;
+    --gold-soft: #8F6A1F;
+    --celadon: #3B6350;
+    --celadon-deep: #5F7A6A;
+    --rule: rgba(134, 93, 16, 0.3);
+    --rule-soft: rgba(134, 93, 16, 0.2);
+    --rule-strong: rgba(134, 93, 16, 0.32);
+    --code-bg: rgba(42, 33, 24, 0.06);
+    color: var(--ink);
+  }
+  .post-page[data-theme='light'] .texture,
+  .post-page[data-theme='light'] .scrim { display: none; }
   .ground { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   /* Stable large-viewport sizing so the iOS address bar does not rescale
      the fixed background on scroll. 100vh is the fallback. */
@@ -107,7 +165,31 @@ const minutes = readingMinutes(post.body);
   .content { position: relative; z-index: 2; }
 
   .article { max-width: 720px; margin: 0 auto; padding: 72px 32px 0 32px; }
-  .back { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; color: var(--celadon); margin-bottom: 48px; transition: color 0.2s ease; }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 36px; }
+  .back { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; font-size: 14px; color: var(--celadon); transition: color 0.2s ease; }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    color: var(--muted-link);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .theme-toggle:hover { color: var(--gold); }
+  /* half-filled disc: shows the theme you would switch to */
+  .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  }
   .back:hover { color: var(--gold); }
   .back-arrow { font-size: 17px; transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
   .back:hover .back-arrow { transform: translateX(-4px); }
@@ -129,7 +211,7 @@ const minutes = readingMinutes(post.body);
   .standfirst { margin: 28px 0 0 0; font-size: 22px; line-height: 1.5; font-weight: 300; font-style: italic; color: var(--muted-link); }
   .article-rule { margin: 48px 0; }
 
-  .byline { display: flex; align-items: center; gap: 16px; margin: 56px 0 0 0; padding-top: 32px; border-top: 1px solid rgba(227, 184, 100, 0.2); }
+  .byline { display: flex; align-items: center; gap: 16px; margin: 56px 0 0 0; padding-top: 32px; border-top: 1px solid var(--rule-soft); }
   .avatar {
     width: 46px;
     height: 46px;
@@ -137,24 +219,30 @@ const minutes = readingMinutes(post.body);
     background: radial-gradient(circle at 35% 30%, #3a2a1c, #14100c);
     border: 1px solid rgba(227, 184, 100, 0.3);
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
     font-family: var(--font-display);
     font-size: 22px;
-    color: var(--gold);
+    color: #E3B864;
   }
-  .byname { font-size: 15px; color: #ede6d2; }
+  .byname { font-size: 15px; color: var(--ink); }
   .byrole { font-size: 13px; color: var(--muted-deep); }
 
   .next-wrap { max-width: 720px; margin: 64px auto 0 auto; padding: 0 32px; }
+  .outro { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; }
+  .outro-copy { margin: 0; font-size: 16.5px; line-height: 1.55; color: var(--muted-link); max-width: 460px; }
+  .outro-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; font-size: 15px; color: var(--gold); transition: color 0.2s ease; }
+  .outro-link:hover { color: var(--ink-bright); }
+  .outro + .next-wrap { margin-top: 36px; }
   .next {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
     padding: 30px 24px 30px 4px;
-    border-top: 1px solid rgba(227, 184, 100, 0.2);
-    color: #ede6d2;
+    border-top: 1px solid var(--rule-soft);
+    color: var(--ink);
     transition: color 0.22s ease, padding-left 0.22s ease;
   }
   .next:hover { color: var(--gold); padding-left: 20px; }
@@ -162,7 +250,42 @@ const minutes = readingMinutes(post.body);
   .next-title { font-family: var(--font-display); font-size: 26px; font-weight: 600; }
   .next-arrow { font-size: 22px; color: var(--celadon); transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
   .next:hover .next-arrow { transform: translateX(5px); }
+
+  @media (max-width: 640px) {
+    .article { padding: 40px 24px 0 24px; }
+    .next-wrap { padding: 0 24px; }
+  }
 </style>
+
+<script>
+  // Light / dark reading toggle. The initial theme is set by the inline
+  // script at the top of .post-page; this only handles the button.
+  function initThemeToggle() {
+    const page = document.querySelector<HTMLElement>('.post-page');
+    const btn = document.getElementById('theme-toggle');
+    if (!page || !btn || btn.dataset.bound) return;
+    btn.dataset.bound = 'true';
+    const label = btn.querySelector('.theme-label');
+    const sync = () => {
+      const light = page.dataset.theme === 'light';
+      btn.setAttribute('aria-pressed', String(light));
+      if (label) label.textContent = light ? 'Dark mode' : 'Light mode';
+    };
+    sync();
+    btn.addEventListener('click', () => {
+      const next = page.dataset.theme === 'light' ? 'dark' : 'light';
+      page.dataset.theme = next;
+      try {
+        localStorage.setItem('reading-theme', next);
+      } catch {}
+      sync();
+    });
+  }
+  // Run immediately as well: in production bundles the initial
+  // astro:page-load can fire before this module's listener registers.
+  initThemeToggle();
+  document.addEventListener('astro:page-load', initThemeToggle);
+</script>
 
 <!-- Prose styling for markdown-rendered content (global, scoped under .post-body) -->
 <style is:global>
@@ -177,8 +300,8 @@ const minutes = readingMinutes(post.body);
     padding: 8px 14px 0 0;
     color: var(--gold);
   }
-  .post-body a { color: var(--gold); border-bottom: 1px solid rgba(227, 184, 100, 0.4); }
-  .post-body em { color: #ede6d2; }
+  .post-body a { color: var(--gold); border-bottom: 1px solid var(--rule-strong); }
+  .post-body em { color: var(--ink); }
   .post-body strong { color: var(--ink-bright); font-weight: 600; }
   .post-body h2 {
     font-family: var(--font-display);
@@ -214,12 +337,12 @@ const minutes = readingMinutes(post.body);
   .post-body code {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.86em;
-    background: rgba(227, 184, 100, 0.1);
+    background: var(--code-bg, rgba(227, 184, 100, 0.1));
     padding: 2px 6px;
     border-radius: 3px;
   }
   .post-body pre {
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--code-bg, rgba(0, 0, 0, 0.35));
     border: 1px solid var(--rule-soft);
     border-radius: 4px;
     padding: 20px;

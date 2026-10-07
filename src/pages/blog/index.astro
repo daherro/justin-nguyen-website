@@ -23,6 +23,7 @@ const [featured, ...rest] = posts;
     <div class="content">
       <Nav active="blog" variant="flow" />
 
+      <main>
       <header class="header">
         <div class="eyebrow" data-reveal>Writing</div>
         <h1 data-reveal style="--reveal-delay: 0.08s">Blog</h1>
@@ -71,6 +72,8 @@ const [featured, ...rest] = posts;
       </section>
 
       {posts.length === 0 && <p class="empty">No posts yet. Check back soon.</p>}
+
+      </main>
 
       <Footer marginTop="96px" />
     </div>
