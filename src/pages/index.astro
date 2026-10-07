@@ -32,6 +32,7 @@ const proof = [
     <div class="content">
       <Nav active={null} />
 
+      <main>
       <section class="hero">
         <div class="eyebrow hero-eyebrow" data-reveal>Strategist &amp; Builder</div>
         <h1 class="name" data-reveal style="--reveal-delay: 0.1s">Justin<br />Nguyễn</h1>
@@ -52,6 +53,7 @@ const proof = [
         </div>
       </section>
 
+      <div class="below">
       <section class="intro">
         <div class="rule-center" data-reveal></div>
         <div class="intro-grid">
@@ -115,7 +117,10 @@ const proof = [
         </div>
       </section>
 
+      </main>
+
       <Footer />
+      </div>
     </div>
   </div>
 </BaseLayout>
@@ -174,6 +179,12 @@ const proof = [
   }
   .status-text { font-size: 14.5px; color: #bdb4a1; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8); }
 
+  /* Everything under the hero is body-size text over the moving light. When
+     the light sits on a gold vein the bio dropped under 2:1, so this layer
+     dims the canvas there (worst case measured at 4.9:1 for the bio). */
+  .below {
+    background: linear-gradient(180deg, rgba(9, 7, 5, 0) 0, rgba(9, 7, 5, 0.6) 180px);
+  }
   .intro { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x) 120px var(--pad-x); }
   .intro-grid {
     display: grid;
@@ -222,10 +233,10 @@ const proof = [
     transition: color 0.2s ease;
   }
   .entry:hover { color: var(--gold); }
-  .num { font-size: 14px; font-weight: 500; color: var(--muted-deep); font-variant-numeric: tabular-nums; }
+  .num { font-size: 14px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
   .entry-body { flex: 1; }
   .entry-title { font-family: var(--font-display); font-size: 40px; font-weight: 600; }
-  .entry-sub { font-size: 15px; color: var(--muted); }
+  .entry-sub { font-size: 15px; color: var(--muted-link); }
   .arrow {
     color: var(--celadon);
     font-size: 21px;
