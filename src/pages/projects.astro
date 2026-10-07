@@ -44,7 +44,21 @@ import { projects } from '../data/projects';
                     <span class="chip">{p.year}</span>
                   </span>
                 </span>
-                <span class="arrow">{p.href ? '↗' : '→'}</span>
+                <span class="metric">
+                  <span class="metric-value">{p.metric.value}</span>
+                  <span class="metric-label">{p.metric.label}</span>
+                </span>
+                {p.confidential ? (
+                  <span class="lock">
+                    <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                      <rect x="3" y="7" width="10" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.3" />
+                      <path d="M5.2 7V5a2.8 2.8 0 0 1 5.6 0v2" fill="none" stroke="currentColor" stroke-width="1.3" />
+                    </svg>
+                    Confidential
+                  </span>
+                ) : (
+                  <span class="arrow" aria-hidden="true">{p.href ? '↗' : '→'}</span>
+                )}
               </Tag>
             );
           })
@@ -91,7 +105,7 @@ import { projects } from '../data/projects';
   .index { max-width: var(--maxw); margin: 0 auto; padding: 8px var(--pad-x) 0 var(--pad-x); }
   .row {
     display: grid;
-    grid-template-columns: 64px 1fr auto;
+    grid-template-columns: 64px 1fr 190px 112px;
     gap: 34px;
     align-items: baseline;
     padding: 34px 20px 34px 4px;
@@ -135,20 +149,52 @@ import { projects } from '../data/projects';
     max-width: 560px;
   }
   .tags { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .metric { align-self: center; }
+  .metric-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .metric-label { display: block; margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .lock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    align-self: center;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
   .arrow {
     font-size: 22px;
     opacity: 0.6;
     align-self: center;
+    justify-self: end;
     transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
   }
   /* external links carry ↗ so they lift up-and-right; modal rows slide right */
   a.row:hover .arrow { transform: translate(4px, -4px); opacity: 1; }
   button.row:hover .arrow { transform: translateX(6px); opacity: 1; }
 
+  @media (max-width: 900px) {
+    .row { grid-template-columns: 64px 1fr 112px; }
+    .metric { grid-column: 2; grid-row: 2; display: flex; align-items: baseline; gap: 12px; }
+    .metric-value { font-size: 30px; }
+    .metric-label { margin-top: 0; }
+    .lock, .arrow { grid-column: 3; grid-row: 1 / span 2; }
+  }
   @media (max-width: 640px) {
-    .row { grid-template-columns: 1fr; gap: 10px; }
+    .row { grid-template-columns: 1fr; gap: 12px; }
     .num { padding-top: 0; }
+    .metric { grid-column: 1; grid-row: auto; }
     .arrow { display: none; }
+    .lock { grid-column: 1; grid-row: auto; justify-content: flex-start; }
   }
 
   /* ===== modal ===== */

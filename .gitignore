@@ -17,5 +17,7 @@ pnpm-debug.log*
 
 # personal source material — reference only, contains PII (do not publish)
 *.pdf
+# ...except the public resume the footer links to
+!public/resume.pdf
 # vercel
 .vercel

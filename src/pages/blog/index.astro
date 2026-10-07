@@ -147,7 +147,12 @@ const [featured, ...rest] = posts;
   .empty { max-width: var(--maxw); margin: 48px auto; padding: 0 var(--pad-x); color: var(--muted); }
 
   @media (max-width: 640px) {
-    .row { grid-template-columns: 1fr; gap: 12px; }
-    .r-aside { flex-direction: row; align-items: center; gap: 14px; }
+    .row { grid-template-columns: 1fr; gap: 10px; padding: 28px 4px; }
+    .row:hover { padding-left: 4px; }
+    .col { padding-top: 0; }
+    .r-title { font-size: 28px; }
+    .r-aside { flex-direction: row; align-items: center; gap: 14px; padding-top: 6px; }
+    .featured { padding: 40px 4px; }
+    .featured:hover { padding-left: 4px; }
   }
 </style>
