@@ -21,3 +21,6 @@ pnpm-debug.log*
 !public/resume.pdf
 # vercel
 .vercel
+
+# local Claude Code settings
+.claude/settings.json
