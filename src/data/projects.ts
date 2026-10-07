@@ -7,6 +7,12 @@ export interface Project {
   href?: string;
   /** Message shown in a pop-up on click, for projects with no shareable public page. */
   modal?: string;
+  /** One standout number or fact shown beside the row. */
+  metric: { value: string; label: string };
+  /** One-line outcome. Entries that have one are featured on the homepage. */
+  outcome?: string;
+  /** Row is proprietary: show a lock and "Confidential" instead of an arrow. */
+  confidential?: boolean;
 }
 
 // Numbered index, ordered most significant first. Reordering is just array order.
@@ -17,6 +23,8 @@ export const projects: Project[] = [
       'A 0-to-1 AI-powered transformation platform I owned end to end, shipped to five enterprise clients with a production LLM assistant, predictive anomaly detection, and an AI email agent.',
     category: 'Enterprise Platform',
     year: '2021–Now',
+    metric: { value: '5', label: 'enterprise clients' },
+    confidential: true,
     modal:
       'The Hub is an internal platform proprietary to Oliver Wyman. I do not have the rights to share details about it on my personal website.',
   },
@@ -27,6 +35,8 @@ export const projects: Project[] = [
     category: 'Side Project',
     year: '2026',
     href: 'https://chronicle-app.fly.dev/',
+    metric: { value: 'Live', label: 'open to try' },
+    outcome: "Live now. It records a loved one's life story in their own voice, starting with my grandmother's.",
   },
   {
     title: 'Reddit Signal Scanner',
@@ -35,6 +45,7 @@ export const projects: Project[] = [
     category: 'Side Project',
     year: '2026',
     href: 'https://reddit-signal-scanner.vercel.app/',
+    metric: { value: '1,000', label: 'simulated paths per forecast' },
   },
   {
     title: 'Lot Armor',
@@ -43,6 +54,8 @@ export const projects: Project[] = [
     category: 'Business I Built',
     year: '2025–2026',
     href: 'https://www.golotarmor.com/',
+    metric: { value: 'Sold', label: 'co-founded, ran, exited' },
+    outcome: 'Co-founded it, grew it through direct sales and local partnerships, then sold it.',
   },
   {
     title: 'Fortune 50 IT Divestiture',
@@ -51,6 +64,8 @@ export const projects: Project[] = [
     category: 'Program',
     year: '2020–2021',
     href: 'https://news.microsoft.com/source/2021/11/12/kyndryl-and-microsoft-establish-global-strategic-partnership-to-accelerate-digital-transformation-across-industries/',
+    metric: { value: '$6M', label: 'engagement funds managed' },
+    outcome: 'Led a 10-person team, $6M in engagement funds, and a ~20K-item backlog through the Kyndryl spinoff.',
   },
   {
     title: 'DoD Satellite Smartphone',
@@ -59,5 +74,6 @@ export const projects: Project[] = [
     category: 'Engineering',
     year: '2018',
     href: 'https://naltec.com/shout-solutions/',
+    metric: { value: 'Java + C', label: 'GPS, audio, tracking' },
   },
 ];

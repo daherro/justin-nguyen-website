@@ -3,6 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LacquerCanvas from '../components/LacquerCanvas.astro';
+import { projects } from '../data/projects';
+
+const featured = projects.filter((p) => p.outcome && p.href);
+const proof = [
+  {
+    org: 'Oliver Wyman',
+    note: 'I lead strategy and product for enterprise clients, and I built The Hub, a 0-to-1 AI platform that shipped to five of them.',
+  },
+  {
+    org: 'Microsoft',
+    note: 'I ran a 10-person team through a Fortune 50 IT divestiture.',
+  },
+  {
+    org: 'My own business',
+    note: 'I co-founded Lot Armor, a parking lot striping company, ran it, and sold it.',
+  },
+];
 ---
 
 <BaseLayout
@@ -22,7 +39,12 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
           I structure ambiguous problems, build the thing, and ship it.
         </p>
 
-        <div class="status" data-reveal style="--reveal-delay: 0.34s">
+        <div class="cta" data-reveal style="--reveal-delay: 0.3s">
+          <a href="/projects" class="btn btn-primary">View projects</a>
+          <a href="mailto:justintknguyen@gmail.com" class="btn">Get in touch</a>
+        </div>
+
+        <div class="status" data-reveal style="--reveal-delay: 0.38s">
           <span class="dot"></span>
           <span class="status-text">
             Currently exploring operator and product roles at growth-stage companies.
@@ -33,13 +55,20 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
       <section class="intro">
         <div class="rule-center" data-reveal></div>
         <div class="intro-grid">
-          <p class="intro-copy" data-reveal style="--reveal-delay: 0.08s">
-            I've spent the last six years moving between consulting and product work. At Oliver Wyman
-            I lead strategy and product for enterprise clients, and I built The Hub, a 0-to-1 AI
-            platform that shipped to five of them. Before that I ran a 10-person team at Microsoft,
-            and more recently I started and sold a small business of my own. Different problems, same
-            instinct: give a tangled idea a shape, then go build it.
-          </p>
+          <div class="intro-copy">
+            <p class="intro-lede" data-reveal style="--reveal-delay: 0.08s">
+              I've spent the last six years moving between consulting and product work. Different
+              problems, same instinct: give a tangled idea a shape, then go build it.
+            </p>
+            <dl class="proof">
+              {proof.map((p, i) => (
+                <div class="proof-row" data-reveal style={`--reveal-delay: ${0.14 + i * 0.06}s`}>
+                  <dt>{p.org}</dt>
+                  <dd>{p.note}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
           <div class="entries">
             <a href="/projects" class="entry" data-reveal style="--reveal-delay: 0.16s">
@@ -62,6 +91,30 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
         </div>
       </section>
 
+      <section class="work">
+        <div class="work-head" data-reveal>
+          <h2 class="eyebrow work-eyebrow">Featured work</h2>
+          <a href="/projects" class="work-all">All projects <span class="arrow">&rarr;</span></a>
+        </div>
+        <div class="work-grid">
+          {featured.map((p, i) => (
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card"
+              data-reveal
+              style={`--reveal-delay: ${0.08 + i * 0.08}s`}
+            >
+              <span class="card-meta">{p.category} · {p.year}</span>
+              <span class="card-title">{p.title}</span>
+              <span class="card-outcome">{p.outcome}</span>
+              <span class="card-go" aria-hidden="true">&nearr;</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <Footer />
     </div>
   </div>
@@ -72,13 +125,16 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
   .content { position: relative; z-index: 2; }
 
   .hero {
-    min-height: 100vh;
+    /* the nav sits in flow above, so fill what is left of the first screen
+       instead of a full extra viewport (that pushed the name too far down) */
+    min-height: calc(100vh - 64px);
+    min-height: calc(100svh - 64px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     max-width: var(--maxw);
     margin: 0 auto;
-    padding: 120px var(--pad-x) 100px var(--pad-x);
+    padding: 32px var(--pad-x) 112px var(--pad-x);
   }
   .hero-eyebrow {
     margin-bottom: 26px;
@@ -106,7 +162,8 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
     max-width: 720px;
     text-shadow: 0 2px 26px rgba(0, 0, 0, 0.85);
   }
-  .status { margin-top: 44px; display: flex; align-items: center; gap: 12px; }
+  .cta { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 14px; }
+  .status { margin-top: 36px; display: flex; align-items: center; gap: 12px; }
   .dot {
     width: 9px;
     height: 9px;
@@ -125,12 +182,34 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
     padding-top: 64px;
     align-items: start;
   }
-  .intro-copy {
+  .intro-copy { max-width: 560px; }
+  .intro-lede {
     margin: 0;
     font-size: 19px;
     line-height: 1.68;
     color: var(--ink-softer);
-    max-width: 560px;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.7);
+  }
+  .proof { margin: 30px 0 0 0; }
+  .proof-row {
+    display: grid;
+    grid-template-columns: 148px 1fr;
+    gap: 20px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .proof dt {
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    padding-top: 0.3em;
+  }
+  .proof dd {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-softer);
     text-shadow: 0 1px 16px rgba(0, 0, 0, 0.7);
   }
   .entry {
@@ -155,8 +234,68 @@ import LacquerCanvas from '../components/LacquerCanvas.astro';
   }
   .entry:hover .arrow { transform: translateX(6px); }
 
+  .work { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x) 120px var(--pad-x); }
+  .work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    padding-bottom: 22px;
+  }
+  .work-eyebrow { margin: 0; }
+  .work-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 14.5px;
+    color: var(--muted-link);
+    transition: color 0.2s ease;
+  }
+  .work-all:hover { color: var(--gold); }
+  .work-all .arrow { font-size: 17px; }
+  .work-all:hover .arrow { transform: translateX(5px); }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 26px 30px 26px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: rgba(12, 9, 7, 0.55);
+    color: var(--ink);
+    transition: color 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+  }
+  .card:hover { color: var(--gold); border-color: rgba(227, 184, 100, 0.55); background-color: rgba(227, 184, 100, 0.05); }
+  .card-meta { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--celadon); }
+  .card-title {
+    margin-top: 16px;
+    padding-right: 28px;
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  .card-outcome { margin-top: 12px; font-size: 15.5px; line-height: 1.55; color: var(--muted-link); }
+  .card-go {
+    position: absolute;
+    top: 24px;
+    right: 22px;
+    font-size: 19px;
+    color: var(--celadon);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card:hover .card-go { transform: translate(3px, -3px); }
+
   @media (max-width: 820px) {
     .intro-grid { grid-template-columns: 1fr; gap: 48px; }
     .intro-copy { max-width: none; }
+    .work-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding-bottom: 80px; }
+    .proof-row { grid-template-columns: 1fr; gap: 6px; }
+    .intro, .work { padding-bottom: 88px; }
   }
 </style>

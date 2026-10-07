@@ -35,9 +35,9 @@
     pointer-events: none;
     background: linear-gradient(
       180deg,
-      rgba(8, 6, 5, 0.78) 0%,
-      rgba(8, 6, 5, 0.32) 26%,
-      rgba(8, 6, 5, 0.3) 56%,
+      rgba(8, 6, 5, 0.7) 0%,
+      rgba(10, 7, 5, 0.26) 26%,
+      rgba(10, 7, 5, 0.26) 56%,
       rgba(8, 6, 5, 0.86) 100%
     );
   }
@@ -75,7 +75,9 @@
     // Apply brightness/saturate/contrast in pixel space rather than via
     // ctx.filter, which older iOS Safari/WebKit silently ignores (leaving the
     // base image at full brightness and killing the glow's contrast on mobile).
-    const mk = (br: number, sat: number, con: number) => {
+    // `warm` leans the result toward gold (lifts red, trims blue) so the veins
+    // sit closer to the About hero's highlights.
+    const mk = (br: number, sat: number, con: number, warm = 0) => {
       const c = document.createElement('canvas');
       c.width = iw;
       c.height = ih;
@@ -84,9 +86,9 @@
       const id = x.getImageData(0, 0, iw, ih);
       const p = id.data;
       for (let i = 0; i < p.length; i += 4) {
-        let r = p[i] * br,
-          g = p[i + 1] * br,
-          b = p[i + 2] * br;
+        let r = p[i] * br * (1 + warm),
+          g = p[i + 1] * br * (1 + warm * 0.35),
+          b = p[i + 2] * br * (1 - warm);
         const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         r = lum + sat * (r - lum);
         g = lum + sat * (g - lum);
@@ -101,8 +103,8 @@
       x.putImageData(id, 0, 0);
       return c;
     };
-    const baseDim = mk(0.42, 0.78, 1.04);
-    const bright = mk(1.62, 1.42, 1.08);
+    const baseDim = mk(0.5, 0.86, 1.04, 0.1);
+    const bright = mk(1.66, 1.46, 1.08, 0.08);
 
     const plain = document.createElement('canvas');
     plain.width = iw;
@@ -324,7 +326,7 @@
       }
 
       const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, R * 1.1);
-      halo.addColorStop(0, 'rgba(224,180,104,' + (noHover ? 0.08 : 0.05) + ')');
+      halo.addColorStop(0, 'rgba(224,180,104,' + (noHover ? 0.11 : 0.08) + ')');
       halo.addColorStop(1, 'rgba(224,180,104,0)');
       ctx.fillStyle = halo;
       ctx.fillRect(0, 0, W, H);
