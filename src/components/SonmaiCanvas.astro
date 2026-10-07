@@ -36,112 +36,26 @@
 </style>
 
 <script>
-  // The pixel prep (dim/bright/luminance passes + glint scan) is expensive, so
-  // it lives at module scope and survives client-side navigations — revisiting
-  // the About page reuses it instead of reprocessing the image.
-  type Prep = {
-    iw: number;
-    ih: number;
-    baseDim: HTMLCanvasElement;
-    bright: HTMLCanvasElement;
-    lumAlpha: HTMLCanvasElement;
-    glints: { ix: number; iy: number; l: number; ph: number; sp: number }[];
+  import { prepareImage, type Prep, type PrepParams } from '../scripts/canvasPrep';
+
+  const params: PrepParams = {
+    src: '/assets/sonmai-landscape.webp',
+    dim: [0.34, 0.82, 1.05, 0],
+    bright: [1.95, 1.55, 1.14, 0],
+    mask: { base: 0.7, warmGain: 0.75, floor: 0.07, gamma: 0.9 },
+    glint: { minStep: 6, div: 240, minL: 0.4, minWarm: 0.1, speed: 0.5, speedRange: 1.6 },
   };
+
+  // The pixel prep is expensive, so its result lives at module scope and
+  // survives client-side navigations: revisiting the About page reuses it
+  // instead of reprocessing the image.
   let prep: Prep | null = null;
-  let imgPromise: Promise<HTMLImageElement> | null = null;
+  let prepPromise: Promise<Prep> | null = null;
   let cleanup: (() => void) | null = null;
 
-  function loadImage() {
-    imgPromise ??= new Promise((resolve, reject) => {
-      const im = new Image();
-      im.onload = () => resolve(im);
-      im.onerror = reject;
-      im.src = '/assets/sonmai-landscape.webp';
-    });
-    return imgPromise;
-  }
-
-  function prepare(img: HTMLImageElement): Prep {
-    const iw = img.naturalWidth;
-    const ih = img.naturalHeight;
-    // Apply brightness/saturate/contrast in pixel space rather than via
-    // ctx.filter, which older iOS Safari/WebKit silently ignores (leaving the
-    // base image at full brightness and killing the glow's contrast on mobile).
-    const mk = (br: number, sat: number, con: number) => {
-      const c = document.createElement('canvas');
-      c.width = iw;
-      c.height = ih;
-      const x = c.getContext('2d')!;
-      x.drawImage(img, 0, 0);
-      const id = x.getImageData(0, 0, iw, ih);
-      const p = id.data;
-      for (let i = 0; i < p.length; i += 4) {
-        let r = p[i] * br,
-          g = p[i + 1] * br,
-          b = p[i + 2] * br;
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        r = lum + sat * (r - lum);
-        g = lum + sat * (g - lum);
-        b = lum + sat * (b - lum);
-        r = (r - 127.5) * con + 127.5;
-        g = (g - 127.5) * con + 127.5;
-        b = (b - 127.5) * con + 127.5;
-        p[i] = r < 0 ? 0 : r > 255 ? 255 : r;
-        p[i + 1] = g < 0 ? 0 : g > 255 ? 255 : g;
-        p[i + 2] = b < 0 ? 0 : b > 255 ? 255 : b;
-      }
-      x.putImageData(id, 0, 0);
-      return c;
-    };
-    const baseDim = mk(0.34, 0.82, 1.05);
-    const bright = mk(1.95, 1.55, 1.14);
-
-    const plain = document.createElement('canvas');
-    plain.width = iw;
-    plain.height = ih;
-    const px = plain.getContext('2d')!;
-    px.drawImage(img, 0, 0);
-    const d = px.getImageData(0, 0, iw, ih).data;
-    const lum = document.createElement('canvas');
-    lum.width = iw;
-    lum.height = ih;
-    const lctx = lum.getContext('2d')!;
-    const lout = lctx.createImageData(iw, ih);
-    const lo = lout.data;
-    const glints: Prep['glints'] = [];
-    const step = Math.max(6, Math.round(iw / 240));
-    for (let y = 0; y < ih; y++) {
-      for (let x = 0; x < iw; x++) {
-        const i = (y * iw + x) * 4;
-        const r = d[i],
-          g = d[i + 1],
-          b = d[i + 2];
-        let L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
-        const warm = Math.max(0, (r + g) / 2 - b) / 255;
-        L = Math.min(1, L * (0.7 + 0.75 * warm));
-        let a = (L - 0.07) / 0.93;
-        a = a < 0 ? 0 : a;
-        a = Math.pow(a, 0.9);
-        lo[i] = 255;
-        lo[i + 1] = 255;
-        lo[i + 2] = 255;
-        lo[i + 3] = Math.round(a * 255);
-      }
-    }
-    lctx.putImageData(lout, 0, 0);
-    for (let y = step; y < ih - step; y += step) {
-      for (let x = step; x < iw - step; x += step) {
-        const i = (y * iw + x) * 4;
-        const r = d[i],
-          g = d[i + 1],
-          b = d[i + 2];
-        const L = (0.5 * r + 0.42 * g + 0.08 * b) / 255;
-        const warm = Math.max(0, (r + g) / 2 - b) / 255;
-        if (L > 0.4 && warm > 0.1)
-          glints.push({ ix: x, iy: y, l: L, ph: Math.random() * 6.28, sp: 0.5 + Math.random() * 1.6 });
-      }
-    }
-    return { iw, ih, baseDim, bright, lumAlpha: lum, glints };
+  function loadPrep() {
+    prepPromise ??= prepareImage(params).then((p) => (prep = p));
+    return prepPromise;
   }
 
   function boot() {
@@ -320,10 +234,9 @@
 
     // Repeat visits have the prep cached, so use a shorter emergence fade.
     cvs.style.setProperty('--canvas-fade', prep ? '0.6s' : '1.4s');
-    loadImage()
-      .then((im) => {
+    loadPrep()
+      .then(() => {
         if (!alive) return;
-        prep ??= prepare(im);
         layout();
         ready = true;
         cvs.classList.add('is-ready');
