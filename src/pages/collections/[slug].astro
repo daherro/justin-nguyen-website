@@ -1,0 +1,376 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import StaticBackground from '../../components/StaticBackground.astro';
+import { savedCollections, PAGE_SIZE } from '../../data/saved/collections';
+
+export function getStaticPaths() {
+  return savedCollections.map((collection) => ({ params: { slug: collection.slug }, props: { collection } }));
+}
+
+const { collection } = Astro.props;
+const posts = collection.posts.filter((p) => !p.hidden);
+// Only offer buckets that actually have posts in them.
+const buckets = collection.buckets
+  .map((b) => ({ ...b, count: posts.filter((p) => p.bucket === b.key).length }))
+  .filter((b) => b.count > 0);
+---
+
+<BaseLayout title={`${collection.title} · Justin Nguyễn`} description={collection.description}>
+  <div class="page">
+    <StaticBackground />
+
+    <div class="content">
+      <Nav variant="flow" />
+
+      <main>
+        <header class="header">
+          <div class="eyebrow" data-reveal>Collections</div>
+          <h1 data-reveal style="--reveal-delay: 0.08s">{collection.title}</h1>
+          <p class="lede" data-reveal style="--reveal-delay: 0.16s">{collection.lede}</p>
+          <div class="rule" data-reveal style="--reveal-delay: 0.24s"></div>
+        </header>
+
+        <section class="gallery" data-gallery data-page-size={PAGE_SIZE}>
+          <div class="filters" role="group" aria-label="Filter by subject">
+            <button type="button" class="filter" data-filter="all" aria-pressed="true">
+              All <span class="n">{posts.length}</span>
+            </button>
+            {
+              buckets.map((b) => (
+                <button type="button" class="filter" data-filter={b.key} aria-pressed="false">
+                  {b.label} <span class="n">{b.count}</span>
+                </button>
+              ))
+            }
+          </div>
+
+          <div class="grid">
+            {
+              posts.map((p) => (
+                <a
+                  class:list={['tile', { bare: !p.thumb }]}
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-bucket={p.bucket ?? ''}
+                  data-embed={`https://www.instagram.com/${p.kind === 'reel' ? 'reel' : 'p'}/${p.id}/embed/`}
+                  data-username={p.username}
+                >
+                  {p.thumb && (
+                    <img
+                      src={`/saved/${collection.slug}/${p.id}.webp`}
+                      alt={`Instagram post by ${p.name || p.username}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  {p.kind === 'reel' && <span class="kind">Reel</span>}
+                  <span class="credit">@{p.username}</span>
+                </a>
+              ))
+            }
+          </div>
+
+          <div class="more-wrap">
+            <span class="showing" data-showing></span>
+            <button type="button" class="btn more" data-more hidden>Show more</button>
+          </div>
+        </section>
+
+        <dialog id="post-modal" class="modal">
+          <div class="modal-card">
+            <iframe class="modal-frame" id="post-frame" title="Instagram post" loading="lazy"></iframe>
+            <div class="modal-bar">
+              <a class="modal-link" id="post-link" target="_blank" rel="noopener noreferrer">
+                Open on Instagram <span aria-hidden="true">↗</span>
+              </a>
+              <button type="button" class="modal-close" id="post-close">Close</button>
+            </div>
+          </div>
+        </dialog>
+      </main>
+
+      <Footer marginTop="96px" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .content { position: relative; z-index: 2; }
+  .header { max-width: var(--maxw); margin: 0 auto; padding: 110px var(--pad-x) 0 var(--pad-x); }
+  .header h1 {
+    font-family: var(--font-display);
+    margin: 26px 0 0 0;
+    padding-bottom: 0.08em;
+    font-size: clamp(56px, 8vw, 104px);
+    line-height: 1.04;
+    font-weight: 600;
+    color: var(--ink-bright);
+  }
+  .lede {
+    margin: 26px 0 0 0;
+    font-size: 21px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--ink-softer);
+    max-width: 640px;
+  }
+  .header .rule { margin-top: 56px; }
+
+  .gallery { max-width: var(--maxw); margin: 0 auto; padding: 34px var(--pad-x) 0 var(--pad-x); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; }
+  .filter {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-nav);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    /* 40px tall with the line-height, close to a full tap target without
+       making the row of chips feel like a row of buttons */
+    padding: 10px 14px;
+    line-height: 18px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .filter .n { margin-left: 6px; opacity: 0.55; font-variant-numeric: tabular-nums; }
+  .filter:hover { color: var(--gold); border-color: rgba(227, 184, 100, 0.5); }
+  .filter[aria-pressed='true'] {
+    color: var(--gold);
+    border-color: var(--gold);
+    background-color: rgba(227, 184, 100, 0.08);
+  }
+
+  .grid {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .tile {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #14100c;
+    border: 1px solid var(--rule-soft);
+  }
+  .tile[hidden] { display: none; }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+  }
+  .tile:hover img { transform: scale(1.04); filter: brightness(0.82); }
+  .tile:hover { border-color: rgba(227, 184, 100, 0.5); }
+  .credit {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 34px 12px 10px 12px;
+    font-size: 13px;
+    color: var(--ink);
+    background: linear-gradient(180deg, rgba(8, 6, 5, 0), rgba(8, 6, 5, 0.86));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .tile:hover .credit,
+  .tile:focus-visible .credit { opacity: 1; }
+  .kind {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: rgba(8, 6, 5, 0.62);
+    border-radius: 2px;
+    padding: 3px 7px;
+  }
+  /* no thumbnail on disk: a plain lacquer card carrying the credit */
+  .tile.bare { display: flex; align-items: center; justify-content: center; }
+  .tile.bare .credit {
+    position: static;
+    opacity: 1;
+    background: none;
+    padding: 0 14px;
+    text-align: center;
+    color: var(--muted);
+    font-family: var(--font-display);
+    font-size: 19px;
+  }
+  .tile.bare:hover .credit { color: var(--gold); }
+
+  .more-wrap {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .showing { font-size: 13px; letter-spacing: 0.06em; color: var(--muted-deep); font-variant-numeric: tabular-nums; }
+  .more { cursor: pointer; font-family: inherit; }
+  .more[hidden] { display: none; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    /* no hover on touch, so the credit is always on */
+    .credit { opacity: 1; font-size: 12px; padding: 28px 9px 8px 9px; }
+    /* one swipeable row instead of four wrapped rows of chips */
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin: 0 calc(-1 * var(--pad-x));
+      padding: 0 var(--pad-x) 6px var(--pad-x);
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+  }
+
+  /* ===== modal ===== */
+  .modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    width: min(440px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    color: var(--ink);
+  }
+  .modal::backdrop { background: rgba(8, 6, 5, 0.8); backdrop-filter: blur(2px); }
+  .modal[open] .modal-card { animation: modal-in 0.26s cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  .modal-card {
+    background: #14100c;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  }
+  .modal-frame {
+    display: block;
+    width: 100%;
+    height: min(720px, calc(100dvh - 120px));
+    border: 0;
+    border-radius: 2px;
+    /* Instagram's embed is white; match it so there is no dark flash */
+    background: #fff;
+  }
+  .modal-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 6px 4px 8px;
+  }
+  .modal-link { font-size: 14px; color: var(--muted-link); transition: color 0.2s ease; }
+  .modal-link:hover { color: var(--gold); }
+  .modal-close {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 1px solid rgba(227, 184, 100, 0.45);
+    border-radius: 2px;
+    color: var(--gold);
+    font: inherit;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 9px 22px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .modal-close:hover { color: var(--ink-bright); border-color: var(--ink-bright); }
+</style>
+
+<script>
+  // Re-bind after every client-side navigation: the ClientRouter swaps in a
+  // fresh DOM but module scripts only execute once per session.
+  function initGallery() {
+    const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+    if (!gallery || gallery.dataset.bound) return;
+    gallery.dataset.bound = 'true';
+
+    const pageSize = Number(gallery.dataset.pageSize) || 30;
+    const tiles = Array.from(gallery.querySelectorAll<HTMLAnchorElement>('.tile'));
+    const filters = Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const more = gallery.querySelector<HTMLButtonElement>('[data-more]');
+    const showing = gallery.querySelector<HTMLElement>('[data-showing]');
+    let bucket = 'all';
+    let limit = pageSize;
+
+    function apply() {
+      let matched = 0;
+      for (const tile of tiles) {
+        const match = bucket === 'all' || tile.dataset.bucket === bucket;
+        if (match) matched++;
+        tile.hidden = !match || matched > limit;
+      }
+      const shown = Math.min(matched, limit);
+      if (showing) showing.textContent = `Showing ${shown} of ${matched}`;
+      if (more) more.hidden = matched <= limit;
+    }
+
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        bucket = btn.dataset.filter || 'all';
+        limit = pageSize;
+        filters.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        apply();
+      });
+    });
+    more?.addEventListener('click', () => {
+      limit += pageSize;
+      apply();
+    });
+    apply();
+
+    // Tiles are plain links to Instagram; with JS they open the official
+    // embed in place instead. Modified clicks still open a new tab.
+    const dlg = document.getElementById('post-modal') as HTMLDialogElement | null;
+    const frame = document.getElementById('post-frame') as HTMLIFrameElement | null;
+    const link = document.getElementById('post-link') as HTMLAnchorElement | null;
+    if (!dlg || !frame || !link) return;
+
+    tiles.forEach((tile) => {
+      tile.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        frame.src = tile.dataset.embed || '';
+        frame.title = `Instagram post by ${tile.dataset.username}`;
+        link.href = tile.href;
+        dlg.showModal();
+      });
+    });
+    // Drop the iframe on close so a playing reel stops.
+    dlg.addEventListener('close', () => frame.removeAttribute('src'));
+    document.getElementById('post-close')?.addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+  }
+  // Run immediately as well: in production bundles the initial
+  // astro:page-load can fire before this module's listener registers.
+  initGallery();
+  document.addEventListener('astro:page-load', initGallery);
+</script>
