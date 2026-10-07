@@ -32,7 +32,13 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     {preloadImage && <link rel="preload" as="image" href={preloadImage} />}
     <ClientRouter />
     <!-- Reveal styles are gated on html.js so content stays visible without JS -->
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Failsafe: if the reveal module below never reports in, unhide content.
+      setTimeout(function () {
+        if (!window.__reveals) document.documentElement.classList.add('reveal-failsafe');
+      }, 3000);
+    </script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -60,6 +66,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
       // Reveal-on-scroll driver for [data-reveal] elements (styles in global.css).
       // Re-runs after every client-side navigation via astro:page-load.
       function setupReveals() {
+        (window as any).__reveals = true;
         const els = document.querySelectorAll('[data-reveal]:not(.revealed)');
         if (!('IntersectionObserver' in window)) {
           els.forEach((el) => el.classList.add('revealed'));

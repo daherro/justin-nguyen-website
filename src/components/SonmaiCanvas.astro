@@ -4,6 +4,16 @@
 ---
 
 <canvas id="sonmai-canvas" aria-hidden="true"></canvas>
+<!-- Without JS the canvas never paints, so show the texture as a plain image. -->
+<noscript>
+  <style>
+    #sonmai-canvas {
+      opacity: 1;
+      background: url('/assets/sonmai-landscape.webp') center / cover no-repeat;
+      filter: brightness(0.5);
+    }
+  </style>
+</noscript>
 
 <style>
   #sonmai-canvas {

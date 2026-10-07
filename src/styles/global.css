@@ -124,8 +124,26 @@ html.js [data-reveal].revealed {
   to { opacity: 1; transform: none; }
 }
 
+/* If the reveal module never runs (blocked, failed to load), the inline
+   script in BaseLayout adds this class after a few seconds so nothing stays
+   hidden. */
+html.reveal-failsafe [data-reveal] { opacity: 1; }
+
 @media (max-width: 640px) {
   :root { --pad-x: 24px; }
+}
+
+/* Print: off-screen reveals never fire and browsers drop backgrounds, so
+   show everything and switch to dark ink on white. */
+@media print {
+  html.js [data-reveal] { opacity: 1 !important; animation: none !important; transform: none !important; }
+  *, *::before, *::after {
+    color: #111 !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+  canvas, .ground, .scrim, .hero-scrim, .scroll-cue, .theme-toggle, dialog { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

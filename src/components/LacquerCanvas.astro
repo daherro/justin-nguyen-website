@@ -4,6 +4,16 @@
 ---
 
 <canvas id="lacquer-canvas" aria-hidden="true"></canvas>
+<!-- Without JS the canvas never paints, so show the texture as a plain image. -->
+<noscript>
+  <style>
+    #lacquer-canvas {
+      opacity: 1;
+      background: url('/assets/lacquer-texture.webp') center / cover no-repeat;
+      filter: brightness(0.5);
+    }
+  </style>
+</noscript>
 <div class="scrim" aria-hidden="true"></div>
 
 <style>
