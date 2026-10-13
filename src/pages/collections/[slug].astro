@@ -10,7 +10,8 @@ export function getStaticPaths() {
 }
 
 const { collection } = Astro.props;
-const posts = collection.posts.filter((p) => !p.hidden);
+// Posts whose thumbnail could not be fetched are left off the page.
+const posts = collection.posts.filter((p) => !p.hidden && p.thumb);
 // Only offer buckets that actually have posts in them.
 const buckets = collection.buckets
   .map((b) => ({ ...b, count: posts.filter((p) => p.bucket === b.key).length }))
@@ -50,7 +51,7 @@ const buckets = collection.buckets
             {
               posts.map((p) => (
                 <a
-                  class:list={['tile', { bare: !p.thumb }]}
+                  class="tile"
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -58,14 +59,12 @@ const buckets = collection.buckets
                   data-embed={`https://www.instagram.com/${p.kind === 'reel' ? 'reel' : 'p'}/${p.id}/embed/`}
                   data-username={p.username}
                 >
-                  {p.thumb && (
-                    <img
-                      src={`/saved/${collection.slug}/${p.id}.webp`}
-                      alt={`Instagram post by ${p.name || p.username}`}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  )}
+                  <img
+                    src={`/saved/${collection.slug}/${p.id}.webp`}
+                    alt={`Instagram post by ${p.name || p.username}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   {p.kind === 'reel' && <span class="kind">Reel</span>}
                   <span class="credit">@{p.username}</span>
                 </a>
@@ -203,19 +202,6 @@ const buckets = collection.buckets
     border-radius: 2px;
     padding: 3px 7px;
   }
-  /* no thumbnail on disk: a plain lacquer card carrying the credit */
-  .tile.bare { display: flex; align-items: center; justify-content: center; }
-  .tile.bare .credit {
-    position: static;
-    opacity: 1;
-    background: none;
-    padding: 0 14px;
-    text-align: center;
-    color: var(--muted);
-    font-family: var(--font-display);
-    font-size: 19px;
-  }
-  .tile.bare:hover .credit { color: var(--gold); }
 
   .more-wrap {
     margin-top: 40px;
